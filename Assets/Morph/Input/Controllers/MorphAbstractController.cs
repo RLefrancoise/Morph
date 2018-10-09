@@ -110,6 +110,7 @@ namespace Morph.Input.Controllers
             {
                 Vector3 delta = Position.Position - _previousPosition.Value;
                 Position.MovementDirection = delta.normalized;
+                Position.PositionDelta = delta;
                 Position.Speed = delta / Time.deltaTime;
             }
 

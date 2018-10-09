@@ -21,6 +21,16 @@ namespace Morph.Examples
             _rotate = !_rotate;
         }
 
+        public void OnGrabbed()
+        {
+            GetComponent<Renderer>().material.color = Color.cyan;
+        }
+
+        public void OnRelease()
+        {
+            GetComponent<Renderer>().material.color = Color.white;
+        }
+
         void Update()
         {
             if (!_rotate) return;
