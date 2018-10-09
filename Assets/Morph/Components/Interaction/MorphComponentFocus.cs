@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 namespace Morph.Components.Interaction
 {
+    /// <inheritdoc cref="MorphComponentInteraction"/>
     /// <inheritdoc cref="IMorphComponentFocus"/>
     /// <summary>
     /// Morph component focus

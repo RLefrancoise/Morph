@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 108233631}
   - component: {fileID: 108233630}
   - component: {fileID: 108233629}
+  - component: {fileID: 108233636}
   - component: {fileID: 108233635}
   m_Layer: 0
   m_Name: Cube
@@ -266,3 +267,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb9602176c806047bed13ea975a5291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &108233636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 108233628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e715180d1fc734486fa51e9cbc43af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 108233635}
+        m_MethodName: OnSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _deselected:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

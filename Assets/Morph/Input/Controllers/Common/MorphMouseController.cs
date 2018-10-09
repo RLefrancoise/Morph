@@ -1,6 +1,7 @@
 ﻿using Morph.Components;
 using Morph.Components.Interaction;
 using Morph.Components.Interaction.Focus;
+using Morph.Components.Interaction.Select;
 using Morph.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,6 +40,17 @@ namespace Morph.Input.Controllers
                 {
                     MorphComponentFocusWithEventTrigger focusWithEventTrigger = componentGameObject.GetComponent<MorphComponentFocusWithEventTrigger>();
                     if (!focusWithEventTrigger) componentGameObject.AddComponent<MorphComponentFocusWithEventTrigger>();
+                }
+                //Select
+                else if (component is IMorphComponentSelect)
+                {
+                    MorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<MorphComponentSelectWithEventTrigger>();
+                    if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<MorphComponentSelectWithEventTrigger>();
+
+                    //Select only if left mouse button down
+                    selectWithEventTrigger.SelectValidation = eventData => UnityEngine.Input.GetMouseButtonDown(0);
+                    //Deselect only if left mouse button up
+                    selectWithEventTrigger.DeselectValidation = eventData => UnityEngine.Input.GetMouseButtonUp(0);
                 }
             }
         }
