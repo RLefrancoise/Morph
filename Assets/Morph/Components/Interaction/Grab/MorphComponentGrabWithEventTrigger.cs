@@ -61,6 +61,8 @@ namespace Morph.Components.Interaction.Grab
                 if (ReleaseValidation == null || ReleaseValidation(eventData)) Released();
             });
 
+            Trigger.triggers.Add(releaseEntry);
+
             //While grabbed
             EventTrigger.Entry whileGrabbedEntry = new EventTrigger.Entry
             {

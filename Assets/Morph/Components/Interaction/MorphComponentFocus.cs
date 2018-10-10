@@ -4,12 +4,12 @@ using UnityEngine.Events;
 
 namespace Morph.Components.Interaction
 {
-    /// <inheritdoc cref="MorphComponentInteraction"/>
+    /// <inheritdoc cref="MorphComponentInteraction{TMorphComponentInteraction}"/>
     /// <inheritdoc cref="IMorphComponentFocus"/>
     /// <summary>
     /// Morph component focus
     /// </summary>
-    public class MorphComponentFocus : MorphComponentInteraction, IMorphComponentFocus
+    public class MorphComponentFocus : MorphComponentInteraction<MorphComponentFocus>, IMorphComponentFocus
     {
         [SerializeField]
         private UnityEvent _enteredFocus;

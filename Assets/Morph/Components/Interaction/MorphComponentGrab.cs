@@ -4,12 +4,12 @@ using UnityEngine.Events;
 
 namespace Morph.Components.Interaction
 {
-    /// <inheritdoc cref="MorphComponentInteraction"/>
+    /// <inheritdoc cref="MorphComponentInteraction{TMorphComponentInteraction}"/>
     /// <inheritdoc cref="IMorphComponentGrab"/>
     /// <summary>
     /// Morph component grab
     /// </summary>
-    public class MorphComponentGrab : MorphComponentInteraction, IMorphComponentGrab
+    public class MorphComponentGrab : MorphComponentInteraction<MorphComponentGrab>, IMorphComponentGrab
     {
         [SerializeField]
         private UnityEvent _grabbed;

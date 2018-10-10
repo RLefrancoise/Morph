@@ -4,12 +4,12 @@ using UnityEngine.Events;
 
 namespace Morph.Components.Interaction
 {
-    /// <inheritdoc cref="MorphComponentInteraction"/>
+    /// <inheritdoc cref="MorphComponentInteraction{TMorphComponentInteraction}"/>
     /// <inheritdoc cref="IMorphComponentSelect"/>
     /// <summary>
     /// Morph component select
     /// </summary>
-    public class MorphComponentSelect : MorphComponentInteraction, IMorphComponentSelect
+    public class MorphComponentSelect : MorphComponentInteraction<MorphComponentSelect>, IMorphComponentSelect
     {
         [SerializeField]
         private UnityEvent _selected;

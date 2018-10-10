@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Morph.Components.Interaction
 {
@@ -7,11 +8,31 @@ namespace Morph.Components.Interaction
     /// Abstract Morph component interaction. You should derive this class to implement a new interaction.
     /// </summary>
     [RequireComponent(typeof(MorphInteractiveComponent))]
-    public abstract class MorphComponentInteraction : MorphComponent, IMorphComponentInteraction
+    public abstract class MorphComponentInteraction<TMorphComponentInteraction> : MorphComponent, IMorphComponentInteraction where TMorphComponentInteraction : IMorphComponentInteraction
     {
         private MorphInteractiveComponent _interactiveComponent;
 
         public IMorphInteractiveComponent InteractiveComponent => _interactiveComponent;
+
+        protected virtual void OnEnable()
+        {
+            MorphComponentInteractionExtension<TMorphComponentInteraction>[] extensions = GetComponents<MorphComponentInteractionExtension<TMorphComponentInteraction>>();
+            foreach (var extension in extensions)
+            {
+                if (extension.Interaction as MorphComponentInteraction<TMorphComponentInteraction> != this) continue;
+                extension.enabled = true;
+            }
+        }
+
+        protected virtual void OnDisable()
+        {
+            MorphComponentInteractionExtension<TMorphComponentInteraction>[] extensions = GetComponents<MorphComponentInteractionExtension<TMorphComponentInteraction>>();
+            foreach (var extension in extensions)
+            {
+                if (extension.Interaction as MorphComponentInteraction<TMorphComponentInteraction> != this) continue;
+                extension.enabled = false;
+            }
+        }
 
         protected override void Awake()
         {
