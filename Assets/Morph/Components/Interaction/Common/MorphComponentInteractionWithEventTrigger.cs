@@ -32,5 +32,10 @@ namespace Morph.Components.Interaction.Common
             Trigger = GetComponent<EventTrigger>();
             if (!Trigger) Trigger = gameObject.AddComponent<EventTrigger>();
         }
+
+        public override void Accept(IMorphComponentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Morph.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Morph.Components.Interaction
 {
@@ -13,6 +12,11 @@ namespace Morph.Components.Interaction
         private MorphInteractiveComponent _interactiveComponent;
 
         public IMorphInteractiveComponent InteractiveComponent => _interactiveComponent;
+
+        public override void Accept(IMorphComponentVisitor visitor)
+        {
+            visitor.Visit(this as IMorphComponentInteraction);
+        }
 
         public abstract void Accept(IMorphComponentInteractionVisitor visitor);
 
@@ -40,11 +44,6 @@ namespace Morph.Components.Interaction
         {
             base.Awake();
             _interactiveComponent = GetComponent<MorphInteractiveComponent>();
-
-            foreach (var controller in MorphMain.Instance.Application.Controllers)
-            {
-                Accept(controller);
-            }
         }
     }
 }

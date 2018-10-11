@@ -1,5 +1,4 @@
 ﻿using Morph.Core;
-using Morph.Other;
 using UnityEngine;
 
 namespace Morph.Components
@@ -13,11 +12,6 @@ namespace Morph.Components
         protected virtual void Awake()
         {
             MorphMain.Instance.Application.RegisterComponent(this);
-
-            /*foreach (var controller in MorphMain.Instance.Application.Controllers)
-            {
-                Accept(controller);
-            }*/
         }
 
         protected virtual void OnDestroy()
@@ -25,13 +19,6 @@ namespace Morph.Components
             MorphMain.Instance?.Application?.UnregisterComponent(this);
         }
 
-        /*#region IVisitable
-
-        public virtual void Accept(IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        #endregion*/
+        public abstract void Accept(IMorphComponentVisitor visitor);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Morph.Components;
+using Morph.Components.Interaction;
 using Morph.Input.Controllers;
 using UnityEngine;
 
@@ -86,6 +87,9 @@ namespace Morph.Core.Applications
 
             WhenComponentRegistered?.Invoke(this, component);
 
+            //Accept the application as a visitor
+            component.Accept(this);
+
             return true;
         }
 
@@ -102,5 +106,29 @@ namespace Morph.Core.Applications
         public event EventHandler<IMorphController> WhenControllerDestroyed;
         public event EventHandler<IMorphComponent> WhenComponentRegistered;
         public event EventHandler<IMorphComponent> WhenComponentUnregistered;
+
+        #region IMorphComponentVisitor
+
+        public void Visit(IMorphComponent component)
+        {
+            Debug.Log($"Visit component {component.GetType()}");
+        }
+
+        public void Visit(IMorphInteractiveComponent interactiveComponent)
+        {
+            Debug.Log($"Visit interactive component {interactiveComponent.GetType()}");
+        }
+
+        public void Visit(IMorphComponentInteraction interaction)
+        {
+            Debug.Log($"Visit component interaction {interaction.GetType()}");
+
+            foreach (var controller in Controllers)
+            {
+                interaction.Accept(controller);
+            }
+        }
+
+        #endregion
     }
 }
