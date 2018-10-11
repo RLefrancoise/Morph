@@ -1,4 +1,5 @@
 ﻿using System;
+using Morph.Other;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,6 +29,11 @@ namespace Morph.Components.Interaction
 
         public event EventHandler Grabbed;
         public event EventHandler Released;
+
+        public override void Accept(IMorphComponentInteractionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
         protected override void Awake()
         {

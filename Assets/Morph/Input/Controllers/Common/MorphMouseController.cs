@@ -1,5 +1,4 @@
-﻿using Morph.Components;
-using Morph.Components.Interaction;
+﻿using Morph.Components.Interaction;
 using Morph.Components.Interaction.Focus;
 using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
@@ -29,65 +28,70 @@ namespace Morph.Input.Controllers
             transform.rotation = Quaternion.identity;
         }
 
-        protected override void WhenComponentRegistered(IMorphComponent component)
+        #region IVisitor
+
+        public override void Visit(IMorphComponentFocus visitable)
         {
-            base.WhenComponentRegistered(component);
+            base.Visit(visitable);
 
-            //look if component has an event trigger
-            GameObject componentGameObject = (component as Component)?.gameObject;
+            GameObject componentGameObject = (visitable as Component)?.gameObject;
             if (!componentGameObject) return;
-            
-            //Is interaction component
-            if (component is IMorphComponentInteraction)
-            {
-                //Focus
-                if (component is IMorphComponentFocus)
-                {
-                    MorphComponentFocusWithEventTrigger focusWithEventTrigger = componentGameObject.GetComponent<MorphComponentFocusWithEventTrigger>();
-                    if (!focusWithEventTrigger) componentGameObject.AddComponent<MorphComponentFocusWithEventTrigger>();
-                }
-                //Select
-                else if (component is IMorphComponentSelect)
-                {
-                    MorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<MorphComponentSelectWithEventTrigger>();
-                    if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<MorphComponentSelectWithEventTrigger>();
 
-                    //Select only if left mouse button down
-                    selectWithEventTrigger.SelectValidation = eventData => UnityEngine.Input.GetMouseButtonDown(0);
-                    //Deselect only if left mouse button up
-                    selectWithEventTrigger.DeselectValidation = eventData => UnityEngine.Input.GetMouseButtonUp(0);
-                }
-                //Grab
-                else if (component is IMorphComponentGrab)
-                {
-                    MorphComponentGrabWithEventTrigger grabWithEventTrigger = componentGameObject.GetComponent<MorphComponentGrabWithEventTrigger>();
-                    if (!grabWithEventTrigger) grabWithEventTrigger = componentGameObject.AddComponent<MorphComponentGrabWithEventTrigger>();
-
-                    grabWithEventTrigger.Grab.Grabbed += ComponentGrabbed;
-                    grabWithEventTrigger.Grab.Released += ComponentReleased;
-
-                    grabWithEventTrigger.WhileGrabbed += (eventData) =>
-                    {
-                        Ray ray = MorphMain.Instance.Application.MainCamera.Camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(ray, out hit))
-                        {
-                            if (hit.collider.gameObject != _currentlyGrabbedComponent) return;
-
-                            if (_previousGrabbedComponentHitPoint.HasValue)
-                            {
-                                Vector3 delta = hit.point - _previousGrabbedComponentHitPoint.Value;
-                                delta.z = 0f;
-                                _currentlyGrabbedComponent.transform.position += delta;
-                            }
-                                
-                            _previousGrabbedComponentHitPoint = hit.point;
-                        }
-                    };
-                }
-            }
+            MorphComponentFocusWithEventTrigger focusWithEventTrigger = componentGameObject.GetComponent<MorphComponentFocusWithEventTrigger>();
+            if (!focusWithEventTrigger) componentGameObject.AddComponent<MorphComponentFocusWithEventTrigger>();
         }
+
+        public override void Visit(IMorphComponentSelect visitable)
+        {
+            base.Visit(visitable);
+
+            GameObject componentGameObject = (visitable as Component)?.gameObject;
+            if (!componentGameObject) return;
+
+            MorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<MorphComponentSelectWithEventTrigger>();
+            if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<MorphComponentSelectWithEventTrigger>();
+
+            //Select only if left mouse button down
+            selectWithEventTrigger.SelectValidation = eventData => UnityEngine.Input.GetMouseButtonDown(0);
+            //Deselect only if left mouse button up
+            selectWithEventTrigger.DeselectValidation = eventData => UnityEngine.Input.GetMouseButtonUp(0);
+        }
+
+        public override void Visit(IMorphComponentGrab visitable)
+        {
+            base.Visit(visitable);
+
+            GameObject componentGameObject = (visitable as Component)?.gameObject;
+            if (!componentGameObject) return;
+
+            MorphComponentGrabWithEventTrigger grabWithEventTrigger = componentGameObject.GetComponent<MorphComponentGrabWithEventTrigger>();
+            if (!grabWithEventTrigger) grabWithEventTrigger = componentGameObject.AddComponent<MorphComponentGrabWithEventTrigger>();
+
+            grabWithEventTrigger.Grab.Grabbed += ComponentGrabbed;
+            grabWithEventTrigger.Grab.Released += ComponentReleased;
+
+            grabWithEventTrigger.WhileGrabbed += (eventData) =>
+            {
+                Ray ray = MorphMain.Instance.Application.MainCamera.Camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.gameObject != _currentlyGrabbedComponent) return;
+
+                    if (_previousGrabbedComponentHitPoint.HasValue)
+                    {
+                        Vector3 delta = hit.point - _previousGrabbedComponentHitPoint.Value;
+                        delta.z = 0f;
+                        _currentlyGrabbedComponent.transform.position += delta;
+                    }
+
+                    _previousGrabbedComponentHitPoint = hit.point;
+                }
+            };
+        }
+
+        #endregion
 
         private void ComponentReleased(object sender, System.EventArgs e)
         {

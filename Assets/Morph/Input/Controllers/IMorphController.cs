@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Morph.Components.Interaction;
 using Morph.Input.Controllers.Features;
 
 namespace Morph.Input.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Base interface for Morph controllers
     /// </summary>
-    public interface IMorphController
+    public interface IMorphController : IMorphComponentInteractionVisitor
     {
         /// <summary>
         /// Features available for the controller

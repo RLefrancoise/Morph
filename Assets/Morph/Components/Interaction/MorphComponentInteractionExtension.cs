@@ -1,7 +1,7 @@
 ﻿namespace Morph.Components.Interaction
 {
     /// <inheritdoc cref="MorphComponent"/>
-    /// <inheritdoc cref="IMorphComponentInteractionExtension"/>
+    /// <inheritdoc cref="IMorphComponentInteractionExtension{TMorphComponentInteraction}"/>
     /// <summary>
     /// base class for interaction extension
     /// </summary>
