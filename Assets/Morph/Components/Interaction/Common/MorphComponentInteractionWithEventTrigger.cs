@@ -3,23 +3,27 @@ using UnityEngine.EventSystems;
 
 namespace Morph.Components.Interaction.Common
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MorphComponentInteractionExtension"/>
     /// <summary>
     /// Morph component interaction using Unity EventTrigger
     /// </summary>
-    /// <typeparam name="TMorphComponentInteraction"></typeparam>
     [RequireComponent(typeof(EventTrigger))]
-    public class MorphComponentInteractionWithEventTrigger<TMorphComponentInteraction> : MorphComponent where TMorphComponentInteraction : IMorphComponentInteraction
+    public class MorphComponentInteractionWithEventTrigger<TMorphComponentInteraction> : MorphComponentInteractionExtension<TMorphComponentInteraction> where TMorphComponentInteraction : IMorphComponentInteraction
     {
-        /// <summary>
-        /// Morph interaction
-        /// </summary>
-        public TMorphComponentInteraction Interaction { get; private set; }
-
         /// <summary>
         /// Event trigger
         /// </summary>
         public EventTrigger Trigger { get; private set; }
+
+        protected virtual void OnEnable()
+        {
+            Trigger.enabled = true;
+        }
+
+        protected virtual void OnDisable()
+        {
+            Trigger.enabled = false;
+        }
 
         protected override void Awake()
         {
@@ -27,8 +31,11 @@ namespace Morph.Components.Interaction.Common
 
             Trigger = GetComponent<EventTrigger>();
             if (!Trigger) Trigger = gameObject.AddComponent<EventTrigger>();
+        }
 
-            Interaction = GetComponent<TMorphComponentInteraction>();
+        public override void Accept(IMorphComponentVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

@@ -18,5 +18,7 @@ namespace Morph.Components
         {
             MorphMain.Instance?.Application?.UnregisterComponent(this);
         }
+
+        public abstract void Accept(IMorphComponentVisitor visitor);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Morph.Components.Interaction.Common;
+﻿using System;
+using Morph.Components.Interaction.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,16 @@ namespace Morph.Components.Interaction.Focus
     public class MorphComponentFocusWithEventTrigger : MorphComponentInteractionWithEventTrigger<MorphComponentFocus>
     {
         public MorphComponentFocus Focus { get; private set; }
+
+        /// <summary>
+        /// Focus will occur only if predicate returns true
+        /// </summary>
+        public Predicate<BaseEventData> FocusValidation { get; set; }
+
+        /// <summary>
+        /// Unfocus will occur only if predicate returns true
+        /// </summary>
+        public Predicate<BaseEventData> UnfocusValidation { get; set; }
 
         protected override void Awake()
         {
@@ -28,7 +39,7 @@ namespace Morph.Components.Interaction.Focus
 
             focusEntry.callback.AddListener(eventData =>
             {
-                Focused();
+                if (FocusValidation == null || FocusValidation(eventData)) Focused();
             });
 
             Trigger.triggers.Add(focusEntry);
@@ -42,7 +53,7 @@ namespace Morph.Components.Interaction.Focus
 
             unfocusEntry.callback.AddListener(eventData =>
             {
-                Unfocused();
+                if (UnfocusValidation == null || UnfocusValidation(eventData)) Unfocused();
             });
 
             Trigger.triggers.Add(unfocusEntry);

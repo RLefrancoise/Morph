@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Morph.Components
+﻿namespace Morph.Components
 {
     /// <inheritdoc />
     /// <summary>

@@ -4,12 +4,12 @@ using UnityEngine.Events;
 
 namespace Morph.Components.Interaction
 {
-    /// <inheritdoc cref="MorphComponentInteraction"/>
+    /// <inheritdoc cref="MorphComponentInteraction{TMorphComponentInteraction}"/>
     /// <inheritdoc cref="IMorphComponentFocus"/>
     /// <summary>
     /// Morph component focus
     /// </summary>
-    public class MorphComponentFocus : MorphComponentInteraction, IMorphComponentFocus
+    public class MorphComponentFocus : MorphComponentInteraction<MorphComponentFocus>, IMorphComponentFocus
     {
         [SerializeField]
         private UnityEvent _enteredFocus;
@@ -29,6 +29,13 @@ namespace Morph.Components.Interaction
         public event EventHandler EnteredFocus;
         public event EventHandler ExitedFocus;
 
+        public override void Accept(IMorphComponentInteractionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        #region MonoBehaviour
+
         protected override void Awake()
         {
             base.Awake();
@@ -43,5 +50,7 @@ namespace Morph.Components.Interaction
                 _exitedFocus?.Invoke();
             };
         }
+
+        #endregion
     }
 }

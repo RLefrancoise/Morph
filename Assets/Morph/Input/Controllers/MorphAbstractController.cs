@@ -1,4 +1,5 @@
 ﻿using Morph.Components;
+using Morph.Components.Interaction;
 using Morph.Core;
 using Morph.Input.Controllers.Features;
 using UnityEngine;
@@ -110,6 +111,7 @@ namespace Morph.Input.Controllers
             {
                 Vector3 delta = Position.Position - _previousPosition.Value;
                 Position.MovementDirection = delta.normalized;
+                Position.PositionDelta = delta;
                 Position.Speed = delta / Time.deltaTime;
             }
 
@@ -157,5 +159,12 @@ namespace Morph.Input.Controllers
 
         #endregion
 
+        #region IMorphComponentInteractionVisitor
+
+        public virtual void Visit(IMorphComponentFocus focus) { }
+        public virtual void Visit(IMorphComponentSelect select) { }
+        public virtual void Visit(IMorphComponentGrab grab) { }
+
+        #endregion
     }
 }

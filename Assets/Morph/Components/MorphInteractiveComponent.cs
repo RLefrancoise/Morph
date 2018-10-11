@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Morph.Other;
+using UnityEngine;
 
 namespace Morph.Components
 {
@@ -15,6 +16,11 @@ namespace Morph.Components
         {
             base.Awake();
             Collider = GetComponent<Collider>();
+        }
+
+        public override void Accept(IMorphComponentVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

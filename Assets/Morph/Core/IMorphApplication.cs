@@ -5,10 +5,11 @@ using Morph.Input.Controllers;
 
 namespace Morph.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Interface for any Morph application
     /// </summary>
-    public interface IMorphApplication
+    public interface IMorphApplication : IMorphComponentVisitor
     {
         /// <summary>
         /// Main camera of the application
