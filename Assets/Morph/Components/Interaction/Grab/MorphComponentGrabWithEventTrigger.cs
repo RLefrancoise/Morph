@@ -29,6 +29,38 @@ namespace Morph.Components.Interaction.Grab
         /// </summary>
         public Action<BaseEventData> WhileGrabbed { get; set; }
 
+        /// <summary>
+        /// Event trigger entry for grab
+        /// </summary>
+        protected virtual EventTrigger.Entry GrabEntry => new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.BeginDrag,
+            callback = new EventTrigger.TriggerEvent()
+        };
+
+        /// <summary>
+        /// Event trigger entry for release
+        /// </summary>
+        protected virtual EventTrigger.Entry ReleaseEntry => new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.EndDrag,
+            callback = new EventTrigger.TriggerEvent()
+        };
+
+        /// <summary>
+        /// Event trigger entry while grabbed
+        /// </summary>
+        protected virtual EventTrigger.Entry WhileGrabbedEntry => new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.Drag,
+            callback = new EventTrigger.TriggerEvent()
+        };
+
+        /// <summary>
+        /// Use WhileGrabbedEntry ?
+        /// </summary>
+        protected virtual bool UseGrabbedEntry => true;
+
         protected override void Awake()
         {
             base.Awake();
@@ -36,56 +68,42 @@ namespace Morph.Components.Interaction.Grab
             Grab = GetComponent<MorphComponentGrab>();
 
             //Grab
-            EventTrigger.Entry grabEntry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.BeginDrag,
-                callback = new EventTrigger.TriggerEvent()
-            };
+            Trigger.triggers.Add(GrabEntry);
 
-            grabEntry.callback.AddListener(eventData =>
+            GrabEntry.callback.AddListener(eventData =>
             {
                 if (GrabValidation == null || GrabValidation(eventData)) Grabbed();
             });
 
-            Trigger.triggers.Add(grabEntry);
-
             //Release
-            EventTrigger.Entry releaseEntry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.EndDrag,
-                callback = new EventTrigger.TriggerEvent()
-            };
+            Trigger.triggers.Add(ReleaseEntry);
 
-            releaseEntry.callback.AddListener(eventData =>
+            ReleaseEntry.callback.AddListener(eventData =>
             {
                 if (ReleaseValidation == null || ReleaseValidation(eventData)) Released();
             });
 
-            Trigger.triggers.Add(releaseEntry);
-
             //While grabbed
-            EventTrigger.Entry whileGrabbedEntry = new EventTrigger.Entry
+            if (UseGrabbedEntry)
             {
-                eventID = EventTriggerType.Drag,
-                callback = new EventTrigger.TriggerEvent()
-            };
-
-            whileGrabbedEntry.callback.AddListener(eventData =>
-            {
-                WhileGrabbed?.Invoke(eventData);
-            });
-
-            Trigger.triggers.Add(whileGrabbedEntry);
+                Trigger.triggers.Add(WhileGrabbedEntry);
+                WhileGrabbedEntry.callback.AddListener(WhileGrabbedCallback);
+            }
         }
 
-        private void Grabbed()
+        protected virtual void Grabbed()
         {
             Grab.Grab();
         }
 
-        private void Released()
+        protected virtual void Released()
         {
             Grab.Release();
+        }
+
+        protected virtual void WhileGrabbedCallback(BaseEventData eventData)
+        {
+            WhileGrabbed?.Invoke(eventData);
         }
     }
 }

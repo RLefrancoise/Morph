@@ -17,13 +17,17 @@ namespace Morph.Components.Interaction
         [SerializeField]
         private UnityEvent _released;
 
+        public bool IsGrabbed { get; protected set; }
+
         public void Grab()
         {
+            IsGrabbed = true;
             Grabbed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Release()
         {
+            IsGrabbed = false;
             Released?.Invoke(this, EventArgs.Empty);
         }
 
