@@ -1,4 +1,7 @@
 ﻿using System;
+using Morph.Components.Interaction.Focus;
+using Morph.Components.Interaction.Grab;
+using Morph.Components.Interaction.Select;
 using Morph.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +12,7 @@ namespace Morph.Input.Controllers.Common
     /// <summary>
     /// Morph touch controller
     /// </summary>
-    public class MorphTouchController : MorphControllerWithEventTrigger
+    public class MorphTouchController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
 
