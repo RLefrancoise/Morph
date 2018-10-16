@@ -20,7 +20,7 @@ namespace Morph.Core.Applications
         private List<GameObject> _controllers;
 
         #region Properties
-        public IMorphCamera MainCamera { get; private set; }
+        public IMorphDisplay MainDisplay { get; private set; }
         public List<IMorphController> Controllers { get; private set; }
         public List<IMorphComponent> Components { get; private set; }
 
@@ -31,7 +31,7 @@ namespace Morph.Core.Applications
             //Main camera
             if (!_mainCamera) return false;
 
-            MainCamera = _mainCamera.GetComponent<IMorphCamera>();
+            MainDisplay = _mainCamera.GetComponent<IMorphDisplay>();
 
             //Components
             Components = new List<IMorphComponent>();

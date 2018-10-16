@@ -14,7 +14,7 @@ namespace Morph.Core
         /// <summary>
         /// Main camera of the application
         /// </summary>
-        IMorphCamera MainCamera { get; }
+        IMorphDisplay MainDisplay { get; }
 
         /// <summary>
         /// Controllers available for the application
