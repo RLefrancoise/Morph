@@ -4,7 +4,7 @@ namespace Morph.Core.Displays
 {
     /// <inheritdoc cref="IMorphDisplay"/>
     /// <summary>
-    /// Default Morph camera
+    /// Default Morph display
     /// </summary>
     public class MorphDefaultDisplay : MonoBehaviour, IMorphDisplay
     {
