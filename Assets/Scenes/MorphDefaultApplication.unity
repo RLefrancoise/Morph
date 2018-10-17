@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 615655863}
   - component: {fileID: 615655862}
   m_Layer: 0
-  m_Name: MorphCamera
+  m_Name: MorphDisplay
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
