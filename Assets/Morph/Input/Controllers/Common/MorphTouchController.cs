@@ -18,8 +18,10 @@ namespace Morph.Input.Controllers.Common
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.GetTouch(0).position);
 
-        protected override Predicate<BaseEventData> SelectValidation => (eventData) => UnityEngine.Input.touchCount > 0;
-        protected override Predicate<BaseEventData> DeselectValidation => (eventData) => UnityEngine.Input.touchCount == 0;
+        protected override Predicate<BaseEventData> SelectValidation => eventData => UnityEngine.Input.touchCount > 0;
+        protected override Predicate<BaseEventData> DeselectValidation => eventData => UnityEngine.Input.touchCount == 0;
+        protected override Predicate<BaseEventData> GrabValidation => SelectValidation;
+        protected override Predicate<BaseEventData> ReleaseValidation => DeselectValidation;
 
         protected override void Awake()
         {

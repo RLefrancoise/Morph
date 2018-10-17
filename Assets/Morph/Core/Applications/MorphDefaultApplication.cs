@@ -111,18 +111,14 @@ namespace Morph.Core.Applications
 
         public void Visit(IMorphComponent component)
         {
-            Debug.Log($"Visit component {component.GetType()}");
         }
 
         public void Visit(IMorphInteractiveComponent interactiveComponent)
         {
-            Debug.Log($"Visit interactive component {interactiveComponent.GetType()}");
         }
 
         public void Visit(IMorphComponentInteraction interaction)
         {
-            Debug.Log($"Visit component interaction {interaction.GetType()}");
-
             foreach (var controller in Controllers)
             {
                 interaction.Accept(controller);

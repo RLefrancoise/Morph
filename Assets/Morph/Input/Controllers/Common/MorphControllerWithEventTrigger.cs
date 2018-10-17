@@ -42,6 +42,16 @@ namespace Morph.Input.Controllers.Common
         protected abstract Predicate<BaseEventData> DeselectValidation { get; }
 
         /// <summary>
+        /// Predicate to be true to validate grab
+        /// </summary>
+        protected abstract Predicate<BaseEventData> GrabValidation { get; }
+
+        /// <summary>
+        /// Predicate to be true to validate release
+        /// </summary>
+        protected abstract Predicate<BaseEventData> ReleaseValidation { get; }
+
+        /// <summary>
         /// Callback to use while grabbing
         /// </summary>
         protected virtual Action<BaseEventData> WhileGrabbed => (eventData) =>
@@ -84,10 +94,8 @@ namespace Morph.Input.Controllers.Common
             TMorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<TMorphComponentSelectWithEventTrigger>();
             if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<TMorphComponentSelectWithEventTrigger>();
 
-            //Select only if left mouse button down
-            selectWithEventTrigger.SelectValidation = eventData => UnityEngine.Input.GetMouseButtonDown(0);
-            //Deselect only if left mouse button up
-            selectWithEventTrigger.DeselectValidation = eventData => UnityEngine.Input.GetMouseButtonUp(0);
+            selectWithEventTrigger.SelectValidation = SelectValidation;
+            selectWithEventTrigger.DeselectValidation = DeselectValidation;
         }
 
         public override void Visit(IMorphComponentGrab visitable)
@@ -99,6 +107,9 @@ namespace Morph.Input.Controllers.Common
 
             TMorphComponentGrabWithEventTrigger grabWithEventTrigger = componentGameObject.GetComponent<TMorphComponentGrabWithEventTrigger>();
             if (!grabWithEventTrigger) grabWithEventTrigger = componentGameObject.AddComponent<TMorphComponentGrabWithEventTrigger>();
+
+            grabWithEventTrigger.GrabValidation += GrabValidation;
+            grabWithEventTrigger.ReleaseValidation += ReleaseValidation;
 
             grabWithEventTrigger.Grab.Grabbed += ComponentGrabbed;
             grabWithEventTrigger.Grab.Released += ComponentReleased;
