@@ -195,7 +195,7 @@ public abstract class GvrBasePointer : MonoBehaviour, IGvrControllerInputDeviceR
   public virtual bool TriggerUp {
     get {
       bool isTriggerUp = Input.GetMouseButtonUp(0);
-      if (ControllerInputDevice == null) {
+      if (ControllerInputDevice != null) {
         isTriggerUp |=
             ControllerInputDevice.GetButtonUp(GvrControllerButton.TouchPadButton);
       }
