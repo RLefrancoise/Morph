@@ -1,4 +1,5 @@
 {
     "Name": "Desktop",
+    "Scene": "Morph/Scenes/MorphDefaultApplication",
     "Dependencies": []
 }
