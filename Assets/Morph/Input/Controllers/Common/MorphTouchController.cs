@@ -1,4 +1,7 @@
 ﻿using System;
+using Morph.Components.Interaction.Focus;
+using Morph.Components.Interaction.Grab;
+using Morph.Components.Interaction.Select;
 using Morph.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,14 +12,16 @@ namespace Morph.Input.Controllers.Common
     /// <summary>
     /// Morph touch controller
     /// </summary>
-    public class MorphTouchController : MorphControllerWithEventTrigger
+    public class MorphTouchController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.GetTouch(0).position);
 
-        protected override Predicate<BaseEventData> SelectValidation => (eventData) => UnityEngine.Input.touchCount > 0;
-        protected override Predicate<BaseEventData> DeselectValidation => (eventData) => UnityEngine.Input.touchCount == 0;
+        protected override Predicate<BaseEventData> SelectValidation => eventData => UnityEngine.Input.touchCount > 0;
+        protected override Predicate<BaseEventData> DeselectValidation => eventData => UnityEngine.Input.touchCount == 0;
+        protected override Predicate<BaseEventData> GrabValidation => SelectValidation;
+        protected override Predicate<BaseEventData> ReleaseValidation => DeselectValidation;
 
         protected override void Awake()
         {

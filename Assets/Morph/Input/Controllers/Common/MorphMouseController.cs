@@ -1,4 +1,7 @@
 ﻿using System;
+using Morph.Components.Interaction.Focus;
+using Morph.Components.Interaction.Grab;
+using Morph.Components.Interaction.Select;
 using Morph.Core;
 using Morph.Input.Controllers.Common;
 using UnityEngine;
@@ -6,11 +9,11 @@ using UnityEngine.EventSystems;
 
 namespace Morph.Input.Controllers
 {
-    /// <inheritdoc cref="MorphControllerWithEventTrigger"/>
+    /// <inheritdoc cref="MorphControllerWithEventTrigger{TMorphComponentFocusWithEventTrigger, TMorphComponentSelectWithEventTrigger, TMorphComponentGrabWithEventTrigger}"/>
     /// <summary>
     /// Mouse controller
     /// </summary>
-    public class MorphMouseController : MorphControllerWithEventTrigger
+    public class MorphMouseController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
 
@@ -28,5 +31,7 @@ namespace Morph.Input.Controllers
 
         protected override Predicate<BaseEventData> SelectValidation => eventData => UnityEngine.Input.GetMouseButtonDown(0);
         protected override Predicate<BaseEventData> DeselectValidation => eventData => UnityEngine.Input.GetMouseButtonUp(0);
+        protected override Predicate<BaseEventData> GrabValidation => SelectValidation;
+        protected override Predicate<BaseEventData> ReleaseValidation => DeselectValidation;
     }
 }

@@ -11,8 +11,11 @@ namespace Morph.Input.Controllers.Common
     /// <inheritdoc />
     /// <summary>
     /// Abstract morph controller for controllers that use Event Trigger
+    /// <typeparam name="TMorphComponentFocusWithEventTrigger">Focus component to use</typeparam>
+    /// <typeparam name="TMorphComponentSelectWithEventTrigger">Select component to use</typeparam>
+    /// <typeparam name="TMorphComponentGrabWithEventTrigger">Grab component to use</typeparam>
     /// </summary>
-    public abstract class MorphControllerWithEventTrigger : MorphAbstractController
+    public abstract class MorphControllerWithEventTrigger<TMorphComponentFocusWithEventTrigger, TMorphComponentSelectWithEventTrigger, TMorphComponentGrabWithEventTrigger> : MorphAbstractController where TMorphComponentFocusWithEventTrigger : MorphComponentFocusWithEventTrigger where TMorphComponentSelectWithEventTrigger : MorphComponentSelectWithEventTrigger where TMorphComponentGrabWithEventTrigger : MorphComponentGrabWithEventTrigger
     {
         /// <summary>
         /// Currently grabbed object
@@ -37,6 +40,16 @@ namespace Morph.Input.Controllers.Common
         /// Predicate to be true to validate deselection
         /// </summary>
         protected abstract Predicate<BaseEventData> DeselectValidation { get; }
+
+        /// <summary>
+        /// Predicate to be true to validate grab
+        /// </summary>
+        protected abstract Predicate<BaseEventData> GrabValidation { get; }
+
+        /// <summary>
+        /// Predicate to be true to validate release
+        /// </summary>
+        protected abstract Predicate<BaseEventData> ReleaseValidation { get; }
 
         /// <summary>
         /// Callback to use while grabbing
@@ -67,8 +80,8 @@ namespace Morph.Input.Controllers.Common
             GameObject componentGameObject = (visitable as Component)?.gameObject;
             if (!componentGameObject) return;
 
-            MorphComponentFocusWithEventTrigger focusWithEventTrigger = componentGameObject.GetComponent<MorphComponentFocusWithEventTrigger>();
-            if (!focusWithEventTrigger) componentGameObject.AddComponent<MorphComponentFocusWithEventTrigger>();
+            TMorphComponentFocusWithEventTrigger focusWithEventTrigger = componentGameObject.GetComponent<TMorphComponentFocusWithEventTrigger>();
+            if (!focusWithEventTrigger) componentGameObject.AddComponent<TMorphComponentFocusWithEventTrigger>();
         }
 
         public override void Visit(IMorphComponentSelect visitable)
@@ -78,13 +91,11 @@ namespace Morph.Input.Controllers.Common
             GameObject componentGameObject = (visitable as Component)?.gameObject;
             if (!componentGameObject) return;
 
-            MorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<MorphComponentSelectWithEventTrigger>();
-            if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<MorphComponentSelectWithEventTrigger>();
+            TMorphComponentSelectWithEventTrigger selectWithEventTrigger = componentGameObject.GetComponent<TMorphComponentSelectWithEventTrigger>();
+            if (!selectWithEventTrigger) selectWithEventTrigger = componentGameObject.AddComponent<TMorphComponentSelectWithEventTrigger>();
 
-            //Select only if left mouse button down
-            selectWithEventTrigger.SelectValidation = eventData => UnityEngine.Input.GetMouseButtonDown(0);
-            //Deselect only if left mouse button up
-            selectWithEventTrigger.DeselectValidation = eventData => UnityEngine.Input.GetMouseButtonUp(0);
+            selectWithEventTrigger.SelectValidation = SelectValidation;
+            selectWithEventTrigger.DeselectValidation = DeselectValidation;
         }
 
         public override void Visit(IMorphComponentGrab visitable)
@@ -94,8 +105,11 @@ namespace Morph.Input.Controllers.Common
             GameObject componentGameObject = (visitable as Component)?.gameObject;
             if (!componentGameObject) return;
 
-            MorphComponentGrabWithEventTrigger grabWithEventTrigger = componentGameObject.GetComponent<MorphComponentGrabWithEventTrigger>();
-            if (!grabWithEventTrigger) grabWithEventTrigger = componentGameObject.AddComponent<MorphComponentGrabWithEventTrigger>();
+            TMorphComponentGrabWithEventTrigger grabWithEventTrigger = componentGameObject.GetComponent<TMorphComponentGrabWithEventTrigger>();
+            if (!grabWithEventTrigger) grabWithEventTrigger = componentGameObject.AddComponent<TMorphComponentGrabWithEventTrigger>();
+
+            grabWithEventTrigger.GrabValidation += GrabValidation;
+            grabWithEventTrigger.ReleaseValidation += ReleaseValidation;
 
             grabWithEventTrigger.Grab.Grabbed += ComponentGrabbed;
             grabWithEventTrigger.Grab.Released += ComponentReleased;
