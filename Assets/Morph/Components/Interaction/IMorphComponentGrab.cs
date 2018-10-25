@@ -9,6 +9,11 @@ namespace Morph.Components.Interaction
     public interface IMorphComponentGrab : IMorphComponentInteraction
     {
         /// <summary>
+        /// Is component grabbed ?
+        /// </summary>
+        bool IsGrabbed { get; }
+
+        /// <summary>
         /// Grab
         /// </summary>
         void Grab();

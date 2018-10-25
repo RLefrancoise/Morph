@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Morph.Core;
+using UnityEngine;
 
 namespace Morph.Examples
 {
@@ -29,6 +30,11 @@ namespace Morph.Examples
         public void OnRelease()
         {
             GetComponent<Renderer>().material.color = Color.white;
+        }
+
+        void Awake()
+        {
+            transform.position = new Vector3(transform.position.x, MorphMain.Instance.Application.MainDisplay.Camera.transform.position.y, transform.position.z);
         }
 
         void Update()
