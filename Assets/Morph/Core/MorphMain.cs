@@ -13,6 +13,14 @@ namespace Morph.Core
     {
         public IMorphApplication Application { get; private set; }
 
+#if UNITY_EDITOR
+        public string ApplicationScene
+        {
+            get { return _applicationScene; }
+            set { _applicationScene.ScenePath = value; }
+        }
+#endif
+
         [SerializeField]
         private SceneReference _applicationScene;
 
