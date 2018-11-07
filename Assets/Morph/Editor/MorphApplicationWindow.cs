@@ -4,7 +4,9 @@ using System.Linq;
 using Morph.Core;
 using UnityEditor;
 using UnityEditor.Build.Content;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Morph.Editor
 {
@@ -19,6 +21,8 @@ namespace Morph.Editor
         private List<ApplicationData> _applications;
         private int _selectedApplication;
         private List<string> _missingDependencies;
+
+        private MorphMain _morphMain;
 
         #endregion
 
@@ -68,8 +72,18 @@ namespace Morph.Editor
 
         private void ChangeCurrentApplication(int applicationIndex)
         {
-            File.WriteAllText(ApplicationPath, JsonUtility.ToJson(_applications[applicationIndex]));
+            ApplicationData data = _applications[applicationIndex];
+            File.WriteAllText(ApplicationPath, JsonUtility.ToJson(data));
             _selectedApplication = applicationIndex;
+
+            if (_morphMain)
+            {
+                _morphMain.ApplicationScene = $"Assets/{data.Scene}.unity";
+                if (!EditorSceneManager.SaveScene(SceneManager.GetActiveScene()))
+                {
+                    Debug.LogErrorFormat("Morph failed to save scene {0}", SceneManager.GetActiveScene().path);
+                }
+            }
 
             Refresh();
         }
@@ -155,6 +169,13 @@ namespace Morph.Editor
                     _missingDependencies.Add(dependency);
                 }
             }
+
+            //Look if MorphMain can be found
+            foreach (var rootGameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                _morphMain = rootGameObject.GetComponentInChildren<MorphMain>();
+                if (_morphMain) break;
+            }
         }
 
         #endregion
@@ -207,6 +228,11 @@ namespace Morph.Editor
             if (CheckForDuplicateApplicationName())
             {
                 EditorGUILayout.HelpBox("Several applications have the same name. It is not allowed.", MessageType.Error);
+            }
+
+            if (!_morphMain)
+            {
+                EditorGUILayout.HelpBox("MorphMain can't be found.", MessageType.Error);
             }
 
             //Refresh button
