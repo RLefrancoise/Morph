@@ -19,6 +19,10 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Rotation tracking
         /// </summary>
-        RotationTracking = 1 << 1
+        RotationTracking = 1 << 1,
+        /// <summary>
+        /// Trackpad
+        /// </summary>
+        TouchPad = 1 << 2
     }
 }

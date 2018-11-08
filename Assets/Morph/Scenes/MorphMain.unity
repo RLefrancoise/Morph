@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 8
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -39,7 +39,6 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
-  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -55,10 +54,11 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -116,9 +116,9 @@ NavMeshSettings:
 --- !u!1 &2027342121
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 2027342123}
   - component: {fileID: 2027342122}
@@ -132,7 +132,7 @@ GameObject:
 --- !u!114 &2027342122
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2027342121}
   m_Enabled: 1
@@ -141,15 +141,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applicationScene:
-    sceneAsset: {fileID: 102900000, guid: 6475ad0d3c0d9474a9cb3fc2031dd2e1, type: 3}
-    scenePath: Assets/Morph/Scenes/MorphGVRApplication.unity
+    sceneAsset: {fileID: 102900000, guid: 1d7e39feffc164a4c955f4d6ec8c464d, type: 3}
+    scenePath: Assets/Morph/Scenes/MorphOculusApplication.unity
   _scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: b7d88680e8b9b9b4eb50426c981c95e4, type: 3}
     scenePath: Assets/Morph-Examples/MorphExample.unity
 --- !u!4 &2027342123
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2027342121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}

@@ -25,6 +25,11 @@ namespace Morph.Input.Controllers
         MorphFeatureRotationTracking Rotation { get; }
 
         /// <summary>
+        /// Trackpad
+        /// </summary>
+        MorphFeatureTouchPad TouchPad { get; }
+
+        /// <summary>
         /// Is controller initialized ?
         /// </summary>
         bool IsInitialized { get; }
