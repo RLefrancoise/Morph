@@ -25,6 +25,7 @@ namespace Morph.Input.Controllers
         public MorphFeaturePositionTracking Position { get; private set; }
         public MorphFeatureRotationTracking Rotation { get; private set; }
         public MorphFeatureTouchPad TouchPad { get; private set; }
+        public MorphFeatureButtons Buttons { get; private set; }
         public bool IsInitialized { get; private set; }
 
         public virtual bool Initialize()
@@ -136,10 +137,8 @@ namespace Morph.Input.Controllers
             _previousRotation = Rotation.Rotation.eulerAngles;
         }
 
-        protected virtual void UpdateTouchPad()
-        {
-            
-        }
+        protected virtual void UpdateTouchPad() { }
+        protected virtual void UpdateButtons() { }
 
         #endregion
 
@@ -150,6 +149,7 @@ namespace Morph.Input.Controllers
             Position = new MorphFeaturePositionTracking();
             Rotation = new MorphFeatureRotationTracking();
             TouchPad = new MorphFeatureTouchPad();
+            Buttons = new MorphFeatureButtons();
         }
 
         protected void Update()
@@ -161,6 +161,7 @@ namespace Morph.Input.Controllers
             if(HasFeatures(MorphControllerFeatures.PositionTracking)) UpdatePosition();
             if(HasFeatures(MorphControllerFeatures.RotationTracking)) UpdateRotation();
             if(HasFeatures(MorphControllerFeatures.TouchPad)) UpdateTouchPad();
+            if(HasFeatures(MorphControllerFeatures.Buttons)) UpdateButtons();
 
             AfterUpdate();
         }

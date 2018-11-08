@@ -14,6 +14,8 @@ namespace Morph.Input.Controllers
         /// </summary>
         MorphControllerFeatures SupportedFeatures { get; }
 
+        #region Features
+
         /// <summary>
         /// Position
         /// </summary>
@@ -28,6 +30,13 @@ namespace Morph.Input.Controllers
         /// Trackpad
         /// </summary>
         MorphFeatureTouchPad TouchPad { get; }
+
+        /// <summary>
+        /// Buttons
+        /// </summary>
+        MorphFeatureButtons Buttons { get; }
+
+        #endregion
 
         /// <summary>
         /// Is controller initialized ?
