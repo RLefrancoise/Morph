@@ -12,7 +12,7 @@ namespace Morph.Input.Controllers.Oculus
     {
         public override MorphControllerFeatures SupportedFeatures =>
             MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking |
-            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons;
+            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures;
 
         public OVRTrackedRemote TrackedRemote { get; protected set; }
 
@@ -81,6 +81,11 @@ namespace Morph.Input.Controllers.Oculus
                 //Index trigger
                 Buttons.Triggers[0].TriggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, TrackedRemote.m_controller);
             }
+        }
+
+        protected override void UpdateGestures()
+        {
+            
         }
     }
 }
