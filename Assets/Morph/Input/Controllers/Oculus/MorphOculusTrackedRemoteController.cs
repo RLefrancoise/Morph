@@ -1,5 +1,6 @@
 ﻿using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
+using Morph.Input.Controllers.Features.Gestures;
 using UnityEngine;
 
 namespace Morph.Input.Controllers.Oculus
@@ -8,13 +9,15 @@ namespace Morph.Input.Controllers.Oculus
     /// <summary>
     /// Oculus tracked remote controller
     /// </summary>
-    class MorphOculusTrackedRemoteController : MorphAbstractController
+    public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
         public override MorphControllerFeatures SupportedFeatures =>
             MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking |
-            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures;
+            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures | MorphControllerFeatures.Haptics;
 
         public OVRTrackedRemote TrackedRemote { get; protected set; }
+
+        protected MorphControllerGestureSwipe SwipeGesture { get; set; }
 
         protected override void Awake()
         {
@@ -22,11 +25,13 @@ namespace Morph.Input.Controllers.Oculus
 
             TrackedRemote = GetComponent<OVRTrackedRemote>();
 
+            //Touchpad
             TouchPad.TouchPads = new[]
             {
                 new MorphTouchPadData(0, 0)
             };
 
+            //Buttons
             Buttons.Buttons = new[]
             {
                 new MorphControllerButton("Back")
@@ -36,6 +41,16 @@ namespace Morph.Input.Controllers.Oculus
             {
                 new MorphControllerTriggerButton("PrimaryIndexTrigger")
             };
+
+            //Gestures
+            SwipeGesture = new MorphControllerGestureSwipe();
+            Gestures.Gestures = new MorphControllerGesture[]
+            {
+                SwipeGesture
+            };
+
+            //Haptics
+            Haptics.HapticSystem = new MorphOculusHapticSystem(TrackedRemote.m_controller);
         }
 
         protected override void UpdateTouchPad()
@@ -85,7 +100,21 @@ namespace Morph.Input.Controllers.Oculus
 
         protected override void UpdateGestures()
         {
-            
+            if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller)) return;
+
+            //Swipe
+            MorphControllerGestureSwipe.SwipeDirections swipeDirections = 0;
+
+            if (OVRInput.GetDown(OVRInput.Button.DpadUp)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeUp;
+            if (OVRInput.GetDown(OVRInput.Button.DpadDown)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeDown;
+            if (OVRInput.GetDown(OVRInput.Button.DpadLeft)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeLeft;
+            if (OVRInput.GetDown(OVRInput.Button.DpadRight)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeRight;
+
+            if (swipeDirections != 0)
+            {
+                SwipeGesture.Directions = swipeDirections;
+                SwipeGesture.Recognize();
+            }
         }
     }
 }

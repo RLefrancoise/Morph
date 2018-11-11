@@ -25,7 +25,7 @@ namespace Morph.Input.Controllers.Features.Gestures
         /// <summary>
         /// Make gesture recognized
         /// </summary>
-        internal void Recognize()
+        internal virtual void Recognize()
         {
             Recognized?.Invoke(this, EventArgs.Empty);
         }

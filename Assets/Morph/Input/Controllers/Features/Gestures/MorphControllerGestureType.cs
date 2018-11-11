@@ -6,20 +6,8 @@
     public enum MorphControllerGestureType
     {
         /// <summary>
-        /// Swipe Up
+        /// Swipe
         /// </summary>
-        SwipeUp,
-        /// <summary>
-        /// Swipe Down
-        /// </summary>
-        SwipeDown,
-        /// <summary>
-        /// Swipe Left
-        /// </summary>
-        SwipeLeft,
-        /// <summary>
-        /// Swipe Right
-        /// </summary>
-        SwipeRight
+        Swipe
     }
 }

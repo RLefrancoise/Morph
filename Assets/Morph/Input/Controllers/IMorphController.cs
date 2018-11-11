@@ -39,7 +39,12 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Gestures
         /// </summary>
-        MorphControllerFeatureGestures Gestures { get; }
+        MorphFeatureGestures Gestures { get; }
+
+        /// <summary>
+        /// Haptics
+        /// </summary>
+        MorphFeatureHaptics Haptics { get; }
 
         #endregion
 

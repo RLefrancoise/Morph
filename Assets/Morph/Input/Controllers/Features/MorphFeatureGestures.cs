@@ -7,7 +7,7 @@ namespace Morph.Input.Controllers.Features
     /// <summary>
     /// Morph controller gestures feature
     /// </summary>
-    public class MorphControllerFeatureGestures : IMorphControllerFeature
+    public class MorphFeatureGestures : IMorphControllerFeature
     {
         /// <summary>
         /// Recognizable gestures
@@ -17,6 +17,6 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Gesture recognized event
         /// </summary>
-        public event EventHandler<MorphControllerGestureType> GestureRecognized;
+        public event EventHandler<MorphControllerGesture> GestureRecognized;
     }
 }

@@ -31,6 +31,10 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Gestures
         /// </summary>
-        Gestures = 1 << 4
+        Gestures = 1 << 4,
+        /// <summary>
+        /// Haptics
+        /// </summary>
+        Haptics = 1 << 5
     }
 }
