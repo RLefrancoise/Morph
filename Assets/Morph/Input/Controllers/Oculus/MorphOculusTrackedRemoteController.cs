@@ -1,4 +1,6 @@
 ﻿using System;
+using Morph.Components;
+using Morph.Components.Interaction;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
@@ -19,6 +21,8 @@ namespace Morph.Input.Controllers.Oculus
         public OVRTrackedRemote TrackedRemote { get; protected set; }
 
         protected MorphControllerGestureSwipe SwipeGesture { get; set; }
+
+        protected GameObject LastHitComponent { get; set; }
 
         protected override void Awake()
         {
@@ -52,6 +56,87 @@ namespace Morph.Input.Controllers.Oculus
 
             //Haptics
             Haptics.HapticSystem = new MorphOculusHapticSystem(TrackedRemote.m_controller);
+        }
+
+        protected override void AfterUpdate()
+        {
+            base.AfterUpdate();
+
+            //Interactions
+            RaycastHit hit;
+            if (Physics.Raycast(Position.Position, Rotation.ForwardDirection, out hit))
+            {
+                //If new component hit
+                if (hit.transform.gameObject != LastHitComponent)
+                {
+                    //Unfocus
+                    IMorphComponentFocus focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
+                    if(focus != null && focus.IsFocused) focus.Unfocus();
+
+                    //Deselect
+                    IMorphComponentSelect select = LastHitComponent?.GetComponent<IMorphComponentSelect>();
+                    if(select != null && select.IsSelected) select.Deselect();
+
+                    //Release
+                    IMorphComponentGrab grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
+                    if(grab != null && grab.IsGrabbed) grab.Release();
+
+                    if(select != null || grab != null)
+                        Buttons.Triggers[0].TriggerValueChanged -= ListenTriggerValue;
+
+                    //Store new hit component
+                    LastHitComponent = hit.transform.gameObject;
+
+                    //If gameobject is not interactive, ignore it
+                    if (LastHitComponent.GetComponent<IMorphInteractiveComponent>() == null) return;
+
+                    //Focus
+                    focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
+                    if (focus != null && !focus.IsFocused) focus.Focus();
+
+                    //Select & Grab
+                    select = LastHitComponent?.GetComponent<IMorphComponentSelect>();
+                    grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
+
+                    if (select != null || grab != null)
+                        Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
+                }
+            }
+        }
+
+        protected void ListenTriggerValue(object sender, float value)
+        {
+            if(!LastHitComponent || LastHitComponent.GetComponent<IMorphInteractiveComponent>() == null) return;
+
+            //Select
+            IMorphComponentSelect select = LastHitComponent.GetComponent<IMorphComponentSelect>();
+
+            if (select != null)
+            {
+                if (value >= 0.5f && !select.IsSelected)
+                {
+                    select.Select();
+                }
+                else if (value < 0.1f && select.IsSelected)
+                {
+                    select.Deselect();
+                }
+            }
+
+            //Grab
+            IMorphComponentGrab grab = LastHitComponent.GetComponent<IMorphComponentGrab>();
+
+            if (grab != null)
+            {
+                if (value >= 0.9f && !grab.IsGrabbed)
+                {
+                    grab.Grab();
+                }
+                else if (value < 0.1f && grab.IsGrabbed)
+                {
+                    grab.Release();
+                }
+            }
         }
 
         protected override void UpdateTouchPad()

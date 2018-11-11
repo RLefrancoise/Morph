@@ -17,13 +17,21 @@ namespace Morph.Components.Interaction
         [SerializeField]
         private UnityEvent _deselected;
 
+        public bool IsSelected { get; protected set; }
+
         public void Select()
         {
+            if (!IsSelected) return;
+
+            IsSelected = true;
             Selected?.Invoke(this, EventArgs.Empty);
         }
 
         public void Deselect()
         {
+            if (!IsSelected) return;
+
+            IsSelected = false;
             Deselected?.Invoke(this, EventArgs.Empty);
         }
 
