@@ -1,4 +1,5 @@
-﻿using Morph.Input.Controllers.Features;
+﻿using System;
+using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
 using UnityEngine;
@@ -61,6 +62,8 @@ namespace Morph.Input.Controllers.Oculus
             {
                 TouchPad.TouchPads[0].HorizontalAxisValue = 0f;
                 TouchPad.TouchPads[0].VerticalAxisValue = 0f;
+
+                if(TouchPad.TouchPads[0].Clicked) TouchPad.TouchPads[0].Clicked = false;
             }
             else
             {
@@ -73,6 +76,11 @@ namespace Morph.Input.Controllers.Oculus
                 {
                     TouchPad.TouchPads[0].Clicked = true;
                 }
+                //Is touchped released ?
+                else if (OVRInput.GetUp(OVRInput.Button.PrimaryTouchpad))
+                {
+                    TouchPad.TouchPads[0].Clicked = false;
+                }
             }
         }
 
@@ -83,15 +91,18 @@ namespace Morph.Input.Controllers.Oculus
             if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller))
             {
                 //Back button
-                Buttons.Buttons[0].Pressed = false;
+                if(Buttons.Buttons[0].Pressed) Buttons.Buttons[0].Pressed = false;
 
                 //Index trigger
-                Buttons.Triggers[0].TriggerValue = 0f;
+                if(Math.Abs(Buttons.Triggers[0].TriggerValue) > 0.01f) Buttons.Triggers[0].TriggerValue = 0f;
             }
             else
             {
                 //Back button
-                Buttons.Buttons[0].Pressed = OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller);
+                if(!Buttons.Buttons[0].Pressed && OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller))
+                    Buttons.Buttons[0].Pressed = true;
+                else if (Buttons.Buttons[0].Pressed && OVRInput.GetUp(OVRInput.Button.Back, TrackedRemote.m_controller))
+                    Buttons.Buttons[0].Pressed = false;
 
                 //Index trigger
                 Buttons.Triggers[0].TriggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, TrackedRemote.m_controller);
