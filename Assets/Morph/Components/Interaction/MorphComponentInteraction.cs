@@ -40,9 +40,9 @@ namespace Morph.Components.Interaction
             }
         }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             _interactiveComponent = GetComponent<MorphInteractiveComponent>();
         }
     }

@@ -16,9 +16,9 @@ namespace Morph.Core.Displays
         public MorphDisplayType DisplayType { get; private set; }
         public Camera Camera { get; private set; }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             DisplayType = _displayType;
             Camera = GetComponent<Camera>();
         }

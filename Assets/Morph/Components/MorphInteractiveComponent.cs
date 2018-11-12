@@ -12,9 +12,9 @@ namespace Morph.Components
     {
         public Collider Collider { get; protected set; }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             Collider = GetComponent<Collider>();
         }
 

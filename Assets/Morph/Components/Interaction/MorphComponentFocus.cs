@@ -44,9 +44,9 @@ namespace Morph.Components.Interaction
 
         #region MonoBehaviour
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             EnteredFocus += (e, args) =>
             {

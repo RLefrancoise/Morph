@@ -24,9 +24,9 @@ namespace Morph.Components.Interaction.Select
         /// </summary>
         public Predicate<BaseEventData> DeselectValidation { get; set; }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Select = GetComponent<MorphComponentSelect>();
 

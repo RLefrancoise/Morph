@@ -25,9 +25,9 @@ namespace Morph.Components.Interaction.Common
             Trigger.enabled = false;
         }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Trigger = GetComponent<EventTrigger>();
             if (!Trigger) Trigger = gameObject.AddComponent<EventTrigger>();

@@ -61,9 +61,9 @@ namespace Morph.Components.Interaction.Grab
         /// </summary>
         protected virtual bool UseGrabbedEntry => true;
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Grab = GetComponent<MorphComponentGrab>();
 

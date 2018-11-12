@@ -24,9 +24,9 @@ namespace Morph.Components.Interaction.Focus
         /// </summary>
         public Predicate<BaseEventData> UnfocusValidation { get; set; }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Focus = GetComponent<MorphComponentFocus>();
 

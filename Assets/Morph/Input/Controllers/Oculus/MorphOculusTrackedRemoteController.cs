@@ -56,6 +56,10 @@ namespace Morph.Input.Controllers.Oculus
 
             //Haptics
             Haptics.HapticSystem = new MorphOculusHapticSystem(TrackedRemote.m_controller);
+
+            //Listen touchpad and trigger for select & grab
+            TouchPad.TouchPads[0].TouchpadClicked += ListenTouchpadClicked;
+            Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
         }
 
         protected override void AfterUpdate()
@@ -69,20 +73,7 @@ namespace Morph.Input.Controllers.Oculus
                 //If new component hit
                 if (hit.transform.gameObject != LastHitComponent)
                 {
-                    //Unfocus
-                    IMorphComponentFocus focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
-                    if(focus != null && focus.IsFocused) focus.Unfocus();
-
-                    //Deselect
-                    IMorphComponentSelect select = LastHitComponent?.GetComponent<IMorphComponentSelect>();
-                    if(select != null && select.IsSelected) select.Deselect();
-
-                    //Release
-                    IMorphComponentGrab grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
-                    if(grab != null && grab.IsGrabbed) grab.Release();
-
-                    if(select != null || grab != null)
-                        Buttons.Triggers[0].TriggerValueChanged -= ListenTriggerValue;
+                    CancelInteractions();
 
                     //Store new hit component
                     LastHitComponent = hit.transform.gameObject;
@@ -91,15 +82,51 @@ namespace Morph.Input.Controllers.Oculus
                     if (LastHitComponent.GetComponent<IMorphInteractiveComponent>() == null) return;
 
                     //Focus
-                    focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
+                    var focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
                     if (focus != null && !focus.IsFocused) focus.Focus();
+                }
+            }
+            else
+            {
+                CancelInteractions();
+                LastHitComponent = null;
+            }
+        }
 
-                    //Select & Grab
-                    select = LastHitComponent?.GetComponent<IMorphComponentSelect>();
-                    grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
+        private void CancelInteractions()
+        {
+            if (LastHitComponent && LastHitComponent.GetComponent<IMorphInteractiveComponent>() != null)
+            {
+                //Unfocus
+                IMorphComponentFocus focus = LastHitComponent?.GetComponent<IMorphComponentFocus>();
+                if (focus != null && focus.IsFocused) focus.Unfocus();
 
-                    if (select != null || grab != null)
-                        Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
+                //Deselect
+                IMorphComponentSelect select = LastHitComponent?.GetComponent<IMorphComponentSelect>();
+                if (select != null && select.IsSelected) select.Deselect();
+
+                //Release
+                IMorphComponentGrab grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
+                if (grab != null && grab.IsGrabbed) grab.Release();
+            }
+        }
+
+        protected void ListenTouchpadClicked(object sender, bool clicked)
+        {
+            if (!LastHitComponent || LastHitComponent.GetComponent<IMorphInteractiveComponent>() == null) return;
+
+            //Select
+            IMorphComponentSelect select = LastHitComponent.GetComponent<IMorphComponentSelect>();
+
+            if (select != null)
+            {
+                if (clicked && !select.IsSelected)
+                {
+                    select.Select();
+                }
+                else if (!clicked && select.IsSelected)
+                {
+                    select.Deselect();
                 }
             }
         }
@@ -107,22 +134,7 @@ namespace Morph.Input.Controllers.Oculus
         protected void ListenTriggerValue(object sender, float value)
         {
             if(!LastHitComponent || LastHitComponent.GetComponent<IMorphInteractiveComponent>() == null) return;
-
-            //Select
-            IMorphComponentSelect select = LastHitComponent.GetComponent<IMorphComponentSelect>();
-
-            if (select != null)
-            {
-                if (value >= 0.5f && !select.IsSelected)
-                {
-                    select.Select();
-                }
-                else if (value < 0.1f && select.IsSelected)
-                {
-                    select.Deselect();
-                }
-            }
-
+            
             //Grab
             IMorphComponentGrab grab = LastHitComponent.GetComponent<IMorphComponentGrab>();
 

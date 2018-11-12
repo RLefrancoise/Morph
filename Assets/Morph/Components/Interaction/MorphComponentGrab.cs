@@ -39,9 +39,9 @@ namespace Morph.Components.Interaction
             visitor.Visit(this);
         }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Grabbed += (e, args) =>
             {
