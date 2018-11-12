@@ -14,6 +14,9 @@ namespace Morph.Input.Controllers.Oculus
     /// </summary>
     public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
+        [SerializeField]
+        private GameObject _reticlePrefab;
+
         public override MorphControllerFeatures SupportedFeatures =>
             MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking |
             MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures | MorphControllerFeatures.Haptics;
@@ -23,6 +26,7 @@ namespace Morph.Input.Controllers.Oculus
         protected MorphControllerGestureSwipe SwipeGesture { get; set; }
 
         protected GameObject LastHitComponent { get; set; }
+        protected GameObject Reticle { get; set; }
 
         protected override void Awake()
         {
@@ -62,6 +66,23 @@ namespace Morph.Input.Controllers.Oculus
             Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
         }
 
+        protected override void BeforeUpdate()
+        {
+            base.BeforeUpdate();
+
+            //If no reticle and controller visible
+            if (!Reticle && _reticlePrefab && TrackedRemote.m_modelOculusGoController.activeSelf || TrackedRemote.m_modelGearVrController.activeSelf)
+            {
+                Reticle = Instantiate(_reticlePrefab, transform);
+            }
+            //If no controller visible and reticle
+            else if (Reticle && !TrackedRemote.m_modelOculusGoController.activeSelf && !TrackedRemote.m_modelGearVrController.activeSelf)
+            {
+                Destroy(Reticle);
+                Reticle = null;
+            }
+        }
+
         protected override void AfterUpdate()
         {
             base.AfterUpdate();
@@ -70,6 +91,13 @@ namespace Morph.Input.Controllers.Oculus
             RaycastHit hit;
             if (Physics.Raycast(Position.Position, Rotation.ForwardDirection, out hit))
             {
+                //Move reticle
+                if (Reticle)
+                {
+                    Reticle.transform.position = hit.point;
+                    Reticle.transform.rotation = Quaternion.LookRotation(hit.normal);
+                }
+
                 //If new component hit
                 if (hit.transform.gameObject != LastHitComponent)
                 {
@@ -90,6 +118,22 @@ namespace Morph.Input.Controllers.Oculus
             {
                 CancelInteractions();
                 LastHitComponent = null;
+
+                if (Reticle)
+                {
+                    Reticle.transform.position = transform.position;
+                    Reticle.transform.rotation = transform.rotation;
+                    Reticle.transform.Translate(Rotation.ForwardDirection * 2f);
+                }
+            }
+
+            //If component grabbed, update its position
+            var grab = LastHitComponent?.GetComponent<IMorphComponentGrab>();
+            if (LastHitComponent && grab != null && grab.IsGrabbed)
+            {
+                LastHitComponent.transform.RotateAround(transform.position, Rotation.UpDirection, Rotation.RotationDelta.y);
+                LastHitComponent.transform.RotateAround(transform.position, Rotation.RightDirection, Rotation.RotationDelta.x);
+                LastHitComponent.transform.RotateAround(transform.position, Rotation.ForwardDirection, Rotation.RotationDelta.z);
             }
         }
 
@@ -117,17 +161,15 @@ namespace Morph.Input.Controllers.Oculus
 
             //Select
             IMorphComponentSelect select = LastHitComponent.GetComponent<IMorphComponentSelect>();
+            if (select == null) return;
 
-            if (select != null)
+            if (clicked && !select.IsSelected)
             {
-                if (clicked && !select.IsSelected)
-                {
-                    select.Select();
-                }
-                else if (!clicked && select.IsSelected)
-                {
-                    select.Deselect();
-                }
+                select.Select();
+            }
+            else if (!clicked && select.IsSelected)
+            {
+                select.Deselect();
             }
         }
 
@@ -137,17 +179,15 @@ namespace Morph.Input.Controllers.Oculus
             
             //Grab
             IMorphComponentGrab grab = LastHitComponent.GetComponent<IMorphComponentGrab>();
+            if (grab == null) return;
 
-            if (grab != null)
+            if (value >= 0.9f && !grab.IsGrabbed)
             {
-                if (value >= 0.9f && !grab.IsGrabbed)
-                {
-                    grab.Grab();
-                }
-                else if (value < 0.1f && grab.IsGrabbed)
-                {
-                    grab.Release();
-                }
+                grab.Grab();
+            }
+            else if (value < 0.1f && grab.IsGrabbed)
+            {
+                grab.Release();
             }
         }
 
@@ -196,9 +236,9 @@ namespace Morph.Input.Controllers.Oculus
             else
             {
                 //Back button
-                if(!Buttons.Buttons[0].Pressed && OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller))
+                if(OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller))
                     Buttons.Buttons[0].Pressed = true;
-                else if (Buttons.Buttons[0].Pressed && OVRInput.GetUp(OVRInput.Button.Back, TrackedRemote.m_controller))
+                else if (OVRInput.GetUp(OVRInput.Button.Back, TrackedRemote.m_controller))
                     Buttons.Buttons[0].Pressed = false;
 
                 //Index trigger

@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1346650e494d1f049a6fafb4cf296517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reticlePrefab: {fileID: 100000, guid: 5a7682c244a150b49965c007720bdbb7, type: 2}
 --- !u!4 &660001430 stripped
 Transform:
   m_PrefabParentObject: {fileID: 488160, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 2}
@@ -515,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1346650e494d1f049a6fafb4cf296517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reticlePrefab: {fileID: 100000, guid: 5a7682c244a150b49965c007720bdbb7, type: 2}
 --- !u!4 &1936709064 stripped
 Transform:
   m_PrefabParentObject: {fileID: 488160, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 2}
