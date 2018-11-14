@@ -44,11 +44,7 @@ namespace Morph.Components.Interaction.Grab
 
             grabEntry.callback.AddListener(eventData =>
             {
-                if (GrabValidation == null || GrabValidation(eventData))
-                {
-                    Debug.Log("grabbed");
-                    Grabbed();
-                }
+                if (GrabValidation == null || GrabValidation(eventData)) Grabbed();
             });
 
             //Release
@@ -60,7 +56,6 @@ namespace Morph.Components.Interaction.Grab
 
             releaseEntry.callback.AddListener(eventData =>
             {
-                Debug.Log("released");
                 if (ReleaseValidation == null || ReleaseValidation(eventData)) Released();
             });
 
