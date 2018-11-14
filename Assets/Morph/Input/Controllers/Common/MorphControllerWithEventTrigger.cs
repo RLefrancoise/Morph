@@ -126,6 +126,7 @@ namespace Morph.Input.Controllers.Common
 
         protected virtual void ComponentGrabbed(object sender, EventArgs e)
         {
+            Debug.Log("grabbed");
             CurrentlyGrabbedComponent = (sender as Component).gameObject;
         }
     }

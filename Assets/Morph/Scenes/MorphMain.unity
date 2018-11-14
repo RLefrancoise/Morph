@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applicationScene:
-    sceneAsset: {fileID: 102900000, guid: 1d7e39feffc164a4c955f4d6ec8c464d, type: 3}
-    scenePath: Assets/Morph/Scenes/MorphOculusApplication.unity
+    sceneAsset: {fileID: 102900000, guid: 3e23aa0c608894147aad498128c673c2, type: 3}
+    scenePath: Assets/Morph/Scenes/MorphDefaultApplication.unity
   _scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: b7d88680e8b9b9b4eb50426c981c95e4, type: 3}
     scenePath: Assets/Morph-Examples/MorphExample.unity

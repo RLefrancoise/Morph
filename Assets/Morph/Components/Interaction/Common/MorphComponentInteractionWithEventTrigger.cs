@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Morph.Components.Interaction.Common
@@ -15,22 +16,44 @@ namespace Morph.Components.Interaction.Common
         /// </summary>
         public EventTrigger Trigger { get; private set; }
 
+        /// <summary>
+        /// Event trigger entries
+        /// </summary>
+        private List<EventTrigger.Entry> Entries { get; set; }
+
         protected virtual void OnEnable()
         {
-            Trigger.enabled = true;
+            foreach (var entry in Entries)
+            {
+                Trigger.triggers.Add(entry);
+            }
         }
 
         protected virtual void OnDisable()
         {
-            Trigger.enabled = false;
+            foreach (var entry in Entries)
+            {
+                Trigger.triggers.Remove(entry);
+            }
         }
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
-
+            base.Awake();
             Trigger = GetComponent<EventTrigger>();
             if (!Trigger) Trigger = gameObject.AddComponent<EventTrigger>();
+
+            Entries = new List<EventTrigger.Entry>();
+        }
+
+        protected void AddEntry(EventTrigger.Entry entry)
+        {
+            Entries.Add(entry);
+        }
+
+        protected void RemoveEntry(EventTrigger.Entry entry)
+        {
+            Entries.Remove(entry);
         }
 
         public override void Accept(IMorphComponentVisitor visitor)

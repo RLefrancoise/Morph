@@ -24,9 +24,9 @@ namespace Morph.Components.Interaction.Select
         /// </summary>
         public Predicate<BaseEventData> DeselectValidation { get; set; }
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             Select = GetComponent<MorphComponentSelect>();
 
@@ -42,8 +42,6 @@ namespace Morph.Components.Interaction.Select
                 if(SelectValidation == null || SelectValidation(eventData)) Selected();
             });
 
-            Trigger.triggers.Add(selectEntry);
-
             //Deselect
             EventTrigger.Entry deselectEntry = new EventTrigger.Entry
             {
@@ -56,7 +54,8 @@ namespace Morph.Components.Interaction.Select
                 if (DeselectValidation == null || DeselectValidation(eventData)) Deselected();
             });
 
-            Trigger.triggers.Add(deselectEntry);
+            AddEntry(selectEntry);
+            AddEntry(deselectEntry);
         }
 
         private void Selected()

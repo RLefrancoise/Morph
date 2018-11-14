@@ -21,7 +21,7 @@ namespace Morph.Components.Interaction
 
         public void Select()
         {
-            if (!IsSelected) return;
+            if (IsSelected) return;
 
             IsSelected = true;
             Selected?.Invoke(this, EventArgs.Empty);
@@ -43,9 +43,9 @@ namespace Morph.Components.Interaction
             visitor.Visit(this);
         }
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             Selected += (e, args) =>
             {

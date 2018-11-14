@@ -24,9 +24,9 @@ namespace Morph.Components.Interaction.Focus
         /// </summary>
         public Predicate<BaseEventData> UnfocusValidation { get; set; }
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             Focus = GetComponent<MorphComponentFocus>();
 
@@ -42,8 +42,6 @@ namespace Morph.Components.Interaction.Focus
                 if (FocusValidation == null || FocusValidation(eventData)) Focused();
             });
 
-            Trigger.triggers.Add(focusEntry);
-
             //Unfocus
             EventTrigger.Entry unfocusEntry = new EventTrigger.Entry
             {
@@ -56,7 +54,8 @@ namespace Morph.Components.Interaction.Focus
                 if (UnfocusValidation == null || UnfocusValidation(eventData)) Unfocused();
             });
 
-            Trigger.triggers.Add(unfocusEntry);
+            AddEntry(focusEntry);
+            AddEntry(unfocusEntry);
         }
 
         private void Focused()
