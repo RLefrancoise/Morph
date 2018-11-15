@@ -12,6 +12,7 @@ namespace Morph.Input.Controllers.Oculus
     /// <summary>
     /// Oculus tracked remote controller
     /// </summary>
+    [RequireComponent(typeof(LineRenderer))]
     public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
         [SerializeField]
@@ -19,7 +20,7 @@ namespace Morph.Input.Controllers.Oculus
 
         public override MorphControllerFeatures SupportedFeatures =>
             MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking |
-            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures | MorphControllerFeatures.Haptics;
+            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures;
 
         public OVRTrackedRemote TrackedRemote { get; protected set; }
 
@@ -27,12 +28,15 @@ namespace Morph.Input.Controllers.Oculus
 
         protected GameObject LastHitComponent { get; set; }
         protected GameObject Reticle { get; set; }
+        protected GameObject ControllerGameObject { get; set; }
+        protected LineRenderer LineRenderer { get; set; }
 
         protected override void Awake()
         {
             base.Awake();
 
             TrackedRemote = GetComponent<OVRTrackedRemote>();
+            LineRenderer = GetComponent<LineRenderer>();
 
             //Touchpad
             TouchPad.TouchPads = new[]
@@ -58,9 +62,6 @@ namespace Morph.Input.Controllers.Oculus
                 SwipeGesture
             };
 
-            //Haptics
-            Haptics.HapticSystem = new MorphOculusHapticSystem(TrackedRemote.m_controller);
-
             //Listen touchpad and trigger for select & grab
             TouchPad.TouchPads[0].TouchpadClicked += ListenTouchpadClicked;
             Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
@@ -70,17 +71,31 @@ namespace Morph.Input.Controllers.Oculus
         {
             base.BeforeUpdate();
 
+            if (TrackedRemote.m_modelOculusGoController.activeInHierarchy || TrackedRemote.m_modelGearVrController.activeInHierarchy)
+            {
+                ControllerGameObject = TrackedRemote.m_modelOculusGoController.activeInHierarchy
+                    ? TrackedRemote.m_modelOculusGoController
+                    : TrackedRemote.m_modelGearVrController;
+            }
+            else
+            {
+                ControllerGameObject = null;
+            }
+
             //If no reticle and controller visible
-            if (!Reticle && _reticlePrefab && TrackedRemote.m_modelOculusGoController.activeSelf || TrackedRemote.m_modelGearVrController.activeSelf)
+            if (!Reticle && _reticlePrefab && ControllerGameObject)
             {
                 Reticle = Instantiate(_reticlePrefab, transform);
             }
             //If no controller visible and reticle
-            else if (Reticle && !TrackedRemote.m_modelOculusGoController.activeSelf && !TrackedRemote.m_modelGearVrController.activeSelf)
+            else if (Reticle && !ControllerGameObject)
             {
                 Destroy(Reticle);
                 Reticle = null;
             }
+
+            //Hide line if no reticle
+            LineRenderer.enabled = Reticle != null;
         }
 
         protected override void AfterUpdate()
@@ -96,6 +111,7 @@ namespace Morph.Input.Controllers.Oculus
                 {
                     Reticle.transform.position = hit.point;
                     Reticle.transform.rotation = Quaternion.LookRotation(hit.normal);
+                    Reticle.transform.Translate(Vector3.forward * 0.01f, Space.Self);
                 }
 
                 //If new component hit
@@ -121,10 +137,17 @@ namespace Morph.Input.Controllers.Oculus
 
                 if (Reticle)
                 {
-                    Reticle.transform.position = transform.position;
-                    Reticle.transform.rotation = transform.rotation;
-                    Reticle.transform.Translate(Rotation.ForwardDirection * 2f);
+                    Reticle.transform.localPosition = Vector3.zero;
+                    Reticle.transform.localRotation = Quaternion.identity;
+                    Reticle.transform.Translate(Vector3.forward * 5f, Space.Self);
                 }
+            }
+
+            //Move line
+            if (LineRenderer.enabled)
+            {
+                LineRenderer.SetPosition(0, Vector3.zero);
+                LineRenderer.SetPosition(1, Reticle.transform.localPosition);
             }
 
             //If component grabbed, update its position

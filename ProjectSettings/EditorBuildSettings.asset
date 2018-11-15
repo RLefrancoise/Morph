@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Morph/Scenes/MorphDefaultApplication.unity
     guid: 3e23aa0c608894147aad498128c673c2
   - enabled: 1
-    path: Assets/Morph-Examples/MorphExample.unity
+    path: Assets/Morph-Examples/MorphExample-Cubes.unity
     guid: b7d88680e8b9b9b4eb50426c981c95e4
   - enabled: 1
     path: Assets/Morph/Scenes/MorphGVRApplication.unity
@@ -20,3 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Morph/Scenes/MorphOculusApplication.unity
     guid: 1d7e39feffc164a4c955f4d6ec8c464d
+  - enabled: 1
+    path: Assets/Morph-Examples/MorphExample-ControllerTest.unity
+    guid: 01c2ec437044ff045a1d3f71875658e3

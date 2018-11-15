@@ -14,8 +14,8 @@ namespace Morph.Input.Controllers
     {
         #region Fields
 
-        private Vector3? _previousPosition;
-        private Vector3? _previousRotation;
+        protected Vector3? _previousPosition;
+        protected Vector3? _previousRotation;
 
         #endregion
 
@@ -107,7 +107,7 @@ namespace Morph.Input.Controllers
         /// </summary>
         protected virtual void AfterUpdate() { }
 
-        protected void UpdatePosition()
+        protected virtual void UpdatePosition()
         {
             Position.Position = transform.position;
 
@@ -122,7 +122,7 @@ namespace Morph.Input.Controllers
             _previousPosition = Position.Position;
         }
 
-        protected void UpdateRotation()
+        protected virtual void UpdateRotation()
         {
             Rotation.Rotation = transform.rotation;
             Rotation.ForwardDirection = transform.forward;
