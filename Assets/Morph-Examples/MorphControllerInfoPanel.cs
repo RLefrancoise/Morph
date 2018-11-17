@@ -48,6 +48,8 @@ namespace Assets.Morph_Examples
                     {
                         _text.text += $"H: {touchpad.HorizontalAxisValue}\n" +
                                       $"V: {touchpad.VerticalAxisValue}\n" +
+                                      $"Delta H: {touchpad.HorizontalAxisDelta}\n" +
+                                      $"Delta V: {touchpad.VerticalAxisDelta}\n" +
                                       $"Clicked: {touchpad.Clicked}\n";
                     }
                 }

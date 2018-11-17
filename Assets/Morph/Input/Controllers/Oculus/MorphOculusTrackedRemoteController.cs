@@ -27,6 +27,8 @@ namespace Morph.Input.Controllers.Oculus
         protected MorphControllerGestureSwipe SwipeGesture { get; set; }
 
         protected GameObject LastHitComponent { get; set; }
+        protected float GrabbedComponentInitialDistance { get; set;}
+
         protected GameObject Reticle { get; set; }
         protected GameObject ControllerGameObject { get; set; }
         protected LineRenderer LineRenderer { get; set; }
@@ -157,6 +159,10 @@ namespace Morph.Input.Controllers.Oculus
                 LastHitComponent.transform.RotateAround(transform.position, Rotation.UpDirection, Rotation.RotationDelta.y);
                 LastHitComponent.transform.RotateAround(transform.position, Rotation.RightDirection, Rotation.RotationDelta.x);
                 LastHitComponent.transform.RotateAround(transform.position, Rotation.ForwardDirection, Rotation.RotationDelta.z);
+
+                //Look for touchpad delta to move grabbed component closer or farer
+                float verticalDelta = TouchPad.TouchPads[0].VerticalAxisDelta;
+                LastHitComponent.transform.Translate(transform.forward * GrabbedComponentInitialDistance * verticalDelta);
             }
         }
 
@@ -207,6 +213,8 @@ namespace Morph.Input.Controllers.Oculus
             if (value >= 0.9f && !grab.IsGrabbed)
             {
                 grab.Grab();
+                //Store initial distance between object and controller
+                GrabbedComponentInitialDistance = Vector3.Distance(LastHitComponent.transform.position, transform.position);
             }
             else if (value < 0.1f && grab.IsGrabbed)
             {
@@ -222,15 +230,38 @@ namespace Morph.Input.Controllers.Oculus
             {
                 TouchPad.TouchPads[0].HorizontalAxisValue = 0f;
                 TouchPad.TouchPads[0].VerticalAxisValue = 0f;
+                TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
+                TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
 
                 if(TouchPad.TouchPads[0].Clicked) TouchPad.TouchPads[0].Clicked = false;
             }
             else
             {
-                Vector2 touchPad = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad, TrackedRemote.m_controller);
-                TouchPad.TouchPads[0].HorizontalAxisValue = touchPad.x;
-                TouchPad.TouchPads[0].VerticalAxisValue = touchPad.y;
+                if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad))
+                {
+                    Vector2 touchPad = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad, TrackedRemote.m_controller);
 
+                    if (TouchPad.TouchPads[0].HorizontalAxisValue == 0f)
+                        TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
+                    else
+                        TouchPad.TouchPads[0].HorizontalAxisDelta = touchPad.x - TouchPad.TouchPads[0].HorizontalAxisValue;
+
+                    if (TouchPad.TouchPads[0].VerticalAxisValue == 0f)
+                        TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
+                    else
+                        TouchPad.TouchPads[0].VerticalAxisDelta = touchPad.y - TouchPad.TouchPads[0].VerticalAxisValue;
+
+                    TouchPad.TouchPads[0].HorizontalAxisValue = touchPad.x;
+                    TouchPad.TouchPads[0].VerticalAxisValue = touchPad.y;
+                }
+                else
+                {
+                    TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
+                    TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
+                    TouchPad.TouchPads[0].HorizontalAxisValue = 0f;
+                    TouchPad.TouchPads[0].VerticalAxisValue = 0f;
+                }
+                
                 //Is touchpad clicked ?
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryTouchpad))
                 {

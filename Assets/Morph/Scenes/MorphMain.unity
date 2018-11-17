@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
     scenePath: Assets/Morph/Scenes/MorphOculusApplication.unity
   _scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: b7d88680e8b9b9b4eb50426c981c95e4, type: 3}
-    scenePath: Assets/Morph-Examples/MorphExample.unity
+    scenePath: Assets/Morph-Examples/MorphExample-Cubes.unity
 --- !u!4 &2027342123
 Transform:
   m_ObjectHideFlags: 0

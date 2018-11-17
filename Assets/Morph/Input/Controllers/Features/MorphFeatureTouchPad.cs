@@ -51,6 +51,17 @@ namespace Morph.Input.Controllers.Features
         /// </summary>
         public float VerticalAxisValue { get; internal set; }
 
+        /// <summary>
+        /// Delta of horizontal axis between current value and previous value
+        /// </summary>
+        public float HorizontalAxisDelta { get; internal set; }
+
+        /// <summary>
+        /// Delta of vertical axis between current value and previous value
+        /// </summary>
+        /// <value></value>
+        public float VerticalAxisDelta { get; internal set; }
+
         public MorphTouchPadData(float horizontalAxisValue, float verticalAxisValue)
         {
             HorizontalAxisValue = horizontalAxisValue;
