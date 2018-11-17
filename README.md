@@ -6,10 +6,10 @@ Morph is a device agnostic framework to develop applications on Unity without ca
 - Desktop (non VR)
 - Mobile (non VR)
 - Google VR
+- Oculus Go
 
 ## Planned devices support
 
-- Oculus Go
 - Daydream
 - Steam VR
 - Hololens
