@@ -6,15 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MorphMain.unity
+    path: Assets/Morph/Scenes/MorphMain.unity
     guid: 0a67e464706d6e5489b2e1b0cca207f5
   - enabled: 1
-    path: Assets/Scenes/MorphDefaultApplication.unity
+    path: Assets/Morph/Scenes/MorphDefaultApplication.unity
     guid: 3e23aa0c608894147aad498128c673c2
   - enabled: 1
-    path: Assets/Morph-Examples/MorphExample.unity
+    path: Assets/Morph-Examples/MorphExample-Cubes.unity
     guid: b7d88680e8b9b9b4eb50426c981c95e4
   - enabled: 1
-    path: Assets/Scenes/MorphGVRApplication.unity
+    path: Assets/Morph/Scenes/MorphGVRApplication.unity
     guid: 6475ad0d3c0d9474a9cb3fc2031dd2e1
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Morph/Scenes/MorphOculusApplication.unity
+    guid: 1d7e39feffc164a4c955f4d6ec8c464d
+  - enabled: 1
+    path: Assets/Morph-Examples/MorphExample-ControllerTest.unity
+    guid: 01c2ec437044ff045a1d3f71875658e3

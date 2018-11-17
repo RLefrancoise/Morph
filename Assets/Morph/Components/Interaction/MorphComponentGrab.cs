@@ -1,5 +1,4 @@
 ﻿using System;
-using Morph.Other;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,12 +20,16 @@ namespace Morph.Components.Interaction
 
         public void Grab()
         {
+            if (IsGrabbed) return;
+
             IsGrabbed = true;
             Grabbed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Release()
         {
+            if (!IsGrabbed) return;
+
             IsGrabbed = false;
             Released?.Invoke(this, EventArgs.Empty);
         }

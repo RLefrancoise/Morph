@@ -9,6 +9,11 @@ namespace Morph.Components.Interaction
     public interface IMorphComponentFocus : IMorphComponentInteraction
     {
         /// <summary>
+        /// Is focused ?
+        /// </summary>
+        bool IsFocused { get; }
+
+        /// <summary>
         /// Focus
         /// </summary>
         void Focus();

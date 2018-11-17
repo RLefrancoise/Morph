@@ -16,13 +16,21 @@ namespace Morph.Components.Interaction
         [SerializeField]
         private UnityEvent _exitedFocus;
 
+        public bool IsFocused { get; protected set; }
+
         public void Focus()
         {
+            if (IsFocused) return;
+
+            IsFocused = true;
             EnteredFocus?.Invoke(this, EventArgs.Empty);
         }
 
         public void Unfocus()
         {
+            if (!IsFocused) return;
+
+            IsFocused = false;
             ExitedFocus?.Invoke(this, EventArgs.Empty);
         }
 

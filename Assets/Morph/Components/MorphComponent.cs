@@ -9,7 +9,7 @@ namespace Morph.Components
     /// </summary>
     public abstract class MorphComponent : MonoBehaviour, IMorphComponent
     {
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             MorphMain.Instance.Application.RegisterComponent(this);
         }
