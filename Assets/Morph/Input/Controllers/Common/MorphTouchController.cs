@@ -23,10 +23,8 @@ namespace Morph.Input.Controllers.Common
         protected override Predicate<BaseEventData> GrabValidation => SelectValidation;
         protected override Predicate<BaseEventData> ReleaseValidation => DeselectValidation;
 
-        protected override void Awake()
+        protected void Start()
         {
-            base.Awake();
-
             //Destroy if touch not supported
             if (!UnityEngine.Input.touchSupported) MorphMain.Instance.Application.DestroyController(this);
         }

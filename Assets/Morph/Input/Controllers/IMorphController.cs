@@ -14,6 +14,8 @@ namespace Morph.Input.Controllers
         /// </summary>
         MorphControllerFeatures SupportedFeatures { get; }
 
+        #region Features
+
         /// <summary>
         /// Position
         /// </summary>
@@ -23,6 +25,28 @@ namespace Morph.Input.Controllers
         /// Rotation
         /// </summary>
         MorphFeatureRotationTracking Rotation { get; }
+
+        /// <summary>
+        /// Trackpad
+        /// </summary>
+        MorphFeatureTouchPad TouchPad { get; }
+
+        /// <summary>
+        /// Buttons
+        /// </summary>
+        MorphFeatureButtons Buttons { get; }
+
+        /// <summary>
+        /// Gestures
+        /// </summary>
+        MorphFeatureGestures Gestures { get; }
+
+        /// <summary>
+        /// Haptics
+        /// </summary>
+        MorphFeatureHaptics Haptics { get; }
+
+        #endregion
 
         /// <summary>
         /// Is controller initialized ?

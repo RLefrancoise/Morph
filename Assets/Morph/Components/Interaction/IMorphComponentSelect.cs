@@ -9,6 +9,11 @@ namespace Morph.Components.Interaction
     public interface IMorphComponentSelect : IMorphComponentInteraction
     {
         /// <summary>
+        /// Is selected ?
+        /// </summary>
+        bool IsSelected { get; }
+
+        /// <summary>
         /// Select
         /// </summary>
         void Select();

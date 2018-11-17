@@ -9,9 +9,8 @@
     {
         public TMorphComponentInteraction Interaction { get; protected set; }
 
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
             Interaction = GetComponent<TMorphComponentInteraction>();
         }
     }

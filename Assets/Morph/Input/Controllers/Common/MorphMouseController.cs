@@ -31,7 +31,7 @@ namespace Morph.Input.Controllers
 
         protected override Predicate<BaseEventData> SelectValidation => eventData => UnityEngine.Input.GetMouseButtonDown(0);
         protected override Predicate<BaseEventData> DeselectValidation => eventData => UnityEngine.Input.GetMouseButtonUp(0);
-        protected override Predicate<BaseEventData> GrabValidation => SelectValidation;
-        protected override Predicate<BaseEventData> ReleaseValidation => DeselectValidation;
+        protected override Predicate<BaseEventData> GrabValidation => eventData => UnityEngine.Input.GetMouseButton(0);
+        protected override Predicate<BaseEventData> ReleaseValidation => eventData => !UnityEngine.Input.GetMouseButton(0);
     }
 }

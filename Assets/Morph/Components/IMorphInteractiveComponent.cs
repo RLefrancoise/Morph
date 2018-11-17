@@ -1,4 +1,6 @@
-﻿namespace Morph.Components
+﻿using UnityEngine;
+
+namespace Morph.Components
 {
     /// <inheritdoc />
     /// <summary>
@@ -6,5 +8,14 @@
     /// </summary>
     public interface IMorphInteractiveComponent : IMorphComponent
     {
+        /// <summary>
+        /// Is interactable ?
+        /// </summary>
+        bool Interactable { get; set; }
+
+        /// <summary>
+        /// Collider of the component
+        /// </summary>
+        Collider Collider { get; }
     }
 }

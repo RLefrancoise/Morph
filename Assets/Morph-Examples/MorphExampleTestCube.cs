@@ -32,11 +32,6 @@ namespace Morph.Examples
             GetComponent<Renderer>().material.color = Color.white;
         }
 
-        void Awake()
-        {
-            transform.position = new Vector3(transform.position.x, MorphMain.Instance.Application.MainDisplay.Camera.transform.position.y, transform.position.z);
-        }
-
         void Update()
         {
             if (!_rotate) return;

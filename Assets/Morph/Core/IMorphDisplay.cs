@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using Morph.Components;
+using UnityEngine;
 
 namespace Morph.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Interface for any display in morph application
     /// </summary>
-    public interface IMorphDisplay
+    public interface IMorphDisplay : IMorphComponent
     {
         /// <summary>
         /// Type of display
