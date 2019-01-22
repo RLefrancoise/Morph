@@ -11,21 +11,21 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Position in world space
         /// </summary>
-        public Vector3 Position { get; internal set; }
+        public Vector3 Position { get; set; }
 
         /// <summary>
         /// Position delta in world space
         /// </summary>
-        public Vector3 PositionDelta { get; internal set; }
+        public Vector3 PositionDelta { get; set; }
 
         /// <summary>
         /// Current speed on each axis
         /// </summary>
-        public Vector3 Speed { get; internal set; }
+        public Vector3 Speed { get; set; }
 
         /// <summary>
         /// Movement direction
         /// </summary>
-        public Vector3 MovementDirection { get; internal set; }
+        public Vector3 MovementDirection { get; set; }
     }
 }

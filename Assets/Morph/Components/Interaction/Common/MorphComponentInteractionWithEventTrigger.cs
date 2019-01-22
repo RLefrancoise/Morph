@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Morph.Components.Interaction.Common
 {
-    /// <inheritdoc cref="MorphComponentInteractionExtension"/>
+    /// <inheritdoc cref="MorphComponentInteractionExtension{TMorphComponentInteraction}"/>
     /// <summary>
     /// Morph component interaction using Unity EventTrigger
     /// </summary>

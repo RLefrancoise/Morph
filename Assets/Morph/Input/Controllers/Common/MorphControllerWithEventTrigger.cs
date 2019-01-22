@@ -3,6 +3,7 @@ using Morph.Components.Interaction;
 using Morph.Components.Interaction.Focus;
 using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
+using Morph.Input.Controllers.Features;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +18,8 @@ namespace Morph.Input.Controllers.Common
     /// </summary>
     public abstract class MorphControllerWithEventTrigger<TMorphComponentFocusWithEventTrigger, TMorphComponentSelectWithEventTrigger, TMorphComponentGrabWithEventTrigger> : MorphAbstractController where TMorphComponentFocusWithEventTrigger : MorphComponentFocusWithEventTrigger where TMorphComponentSelectWithEventTrigger : MorphComponentSelectWithEventTrigger where TMorphComponentGrabWithEventTrigger : MorphComponentGrabWithEventTrigger
     {
+        public override MorphFeatureButtons Buttons => new MorphFeatureButtons();
+
         /// <summary>
         /// Currently grabbed object
         /// </summary>

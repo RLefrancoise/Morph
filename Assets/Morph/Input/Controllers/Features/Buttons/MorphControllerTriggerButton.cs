@@ -18,7 +18,7 @@ namespace Morph.Input.Controllers.Features.Buttons
         /// </summary>
         public float TriggerValue {
             get { return _triggerValue; }
-            internal set
+            set
             {
                 _triggerValue = value;
                 TriggerValueChanged?.Invoke(this, value);

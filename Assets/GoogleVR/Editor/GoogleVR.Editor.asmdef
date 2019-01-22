@@ -1,0 +1,10 @@
+{
+    "name": "GoogleVR.Editor",
+    "references": [
+        "GoogleVR"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

@@ -15,6 +15,16 @@ namespace Morph.Input.Controllers.Oculus
     [RequireComponent(typeof(LineRenderer))]
     public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
+        public override MorphFeatureButtons Buttons => new MorphFeatureButtons(new[]
+            {
+                new MorphControllerButton("Back")
+            },
+            new[]
+            {
+                new MorphControllerTriggerButton("PrimaryIndexTrigger")
+            }
+        );
+
         [SerializeField]
         private GameObject _reticlePrefab;
 
@@ -47,7 +57,7 @@ namespace Morph.Input.Controllers.Oculus
             };
 
             //Buttons
-            Buttons.Buttons = new[]
+            /*Buttons.Buttons = new[]
             {
                 new MorphControllerButton("Back")
             };
@@ -55,7 +65,7 @@ namespace Morph.Input.Controllers.Oculus
             Buttons.Triggers = new[]
             {
                 new MorphControllerTriggerButton("PrimaryIndexTrigger")
-            };
+            };*/
 
             //Gestures
             SwipeGesture = new MorphControllerGestureSwipe();

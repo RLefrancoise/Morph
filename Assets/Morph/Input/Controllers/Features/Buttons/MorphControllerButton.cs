@@ -19,7 +19,7 @@ namespace Morph.Input.Controllers.Features.Buttons
         public bool Pressed
         {
             get { return _pressed; }
-            internal set
+            set
             {
                 _pressed = value;
                 ButtonPressed?.Invoke(this, value);

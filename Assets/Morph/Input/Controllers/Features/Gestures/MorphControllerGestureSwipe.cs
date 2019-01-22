@@ -35,7 +35,7 @@ namespace Morph.Input.Controllers.Features.Gestures
         /// <summary>
         /// Swipe directions of the recognized swipe
         /// </summary>
-        public SwipeDirections Directions { get; internal set; }
+        public SwipeDirections Directions { get; set; }
 
         public MorphControllerGestureSwipe() : base(MorphControllerGestureType.Swipe)
         {

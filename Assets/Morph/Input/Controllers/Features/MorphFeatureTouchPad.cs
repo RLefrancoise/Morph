@@ -30,7 +30,7 @@ namespace Morph.Input.Controllers.Features
         public bool Clicked
         {
             get { return _clicked; }
-            internal set
+            set
             {
                 _clicked = value;
                 TouchpadClicked?.Invoke(this, value);
@@ -45,22 +45,22 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Value of horizontal axis between -1 and 1
         /// </summary>
-        public float HorizontalAxisValue { get; internal set; }
+        public float HorizontalAxisValue { get; set; }
         /// <summary>
         /// Value of vertical axis between -1 and 1
         /// </summary>
-        public float VerticalAxisValue { get; internal set; }
+        public float VerticalAxisValue { get; set; }
 
         /// <summary>
         /// Delta of horizontal axis between current value and previous value
         /// </summary>
-        public float HorizontalAxisDelta { get; internal set; }
+        public float HorizontalAxisDelta { get; set; }
 
         /// <summary>
         /// Delta of vertical axis between current value and previous value
         /// </summary>
         /// <value></value>
-        public float VerticalAxisDelta { get; internal set; }
+        public float VerticalAxisDelta { get; set; }
 
         public MorphTouchPadData(float horizontalAxisValue, float verticalAxisValue)
         {

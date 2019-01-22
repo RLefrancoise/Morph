@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applicationScene:
-    sceneAsset: {fileID: 102900000, guid: 3e23aa0c608894147aad498128c673c2, type: 3}
-    scenePath: Assets/Morph/Scenes/MorphDefaultApplication.unity
+    sceneAsset: {fileID: 102900000, guid: 6475ad0d3c0d9474a9cb3fc2031dd2e1, type: 3}
+    scenePath: Assets/Morph/Scenes/MorphGVRApplication.unity
   _scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: b7d88680e8b9b9b4eb50426c981c95e4, type: 3}
     scenePath: Assets/Morph-Examples/MorphExample-Cubes.unity

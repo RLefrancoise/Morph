@@ -1,9 +1,10 @@
 ﻿namespace Morph.Components.Interaction
 {
+    /// <inheritdoc />
     /// <summary>
     /// Base interface for Morph component interaction
     /// </summary>
-    public interface IMorphComponentInteraction
+    public interface IMorphComponentInteraction : IMorphComponent
     {
         /// <summary>
         /// Interactive component this interaction is attached to

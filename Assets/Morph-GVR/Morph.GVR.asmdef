@@ -1,0 +1,13 @@
+{
+    "name": "Morph.GVR",
+    "references": [
+        "Morph",
+        "GoogleVR"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor",
+        "iOS"
+    ],
+    "excludePlatforms": []
+}
