@@ -1,8 +1,7 @@
 {
-    "name": "Morph.Oculus",
+    "name": "Oculus.AudioManager",
     "references": [
-        "Morph",
-        "Oculus.VR"
+        "Oculus.Spatializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": []

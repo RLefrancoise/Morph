@@ -1,0 +1,10 @@
+{
+    "name": "Oculus.LipSync.Editor",
+    "references": [
+        "Oculus.LipSync"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

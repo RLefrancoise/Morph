@@ -1,0 +1,10 @@
+{
+    "name": "Oculus.AudioManager.Audio.Editor",
+    "references": [
+        "Oculus.AudioManager"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
