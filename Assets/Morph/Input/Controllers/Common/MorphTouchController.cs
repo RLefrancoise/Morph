@@ -3,6 +3,7 @@ using Morph.Components.Interaction.Focus;
 using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
 using Morph.Core;
+using Morph.Input.Controllers.Features;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,7 @@ namespace Morph.Input.Controllers.Common
     public class MorphTouchController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
+        public override MorphFeatureButtons Buttons => null;
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.GetTouch(0).position);
 

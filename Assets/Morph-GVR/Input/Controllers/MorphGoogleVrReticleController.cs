@@ -4,6 +4,7 @@ using Morph.Components.Interaction.Focus;
 using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
 using Morph.Input.Controllers.Common;
+using Morph.Input.Controllers.Features;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -38,6 +39,8 @@ namespace Morph.Input.Controllers.GoogleVR
         public GvrReticlePointer Reticle { get; private set; }
 
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
+        public override MorphFeatureButtons Buttons => null;
+
         protected override Ray GrabbedRay => new Ray(transform.position, transform.forward);
         protected override Predicate<BaseEventData> SelectValidation => eventData => Reticle.TriggerDown;
         protected override Predicate<BaseEventData> DeselectValidation => eventData => Reticle.TriggerUp;

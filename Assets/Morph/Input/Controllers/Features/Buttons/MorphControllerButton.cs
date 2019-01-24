@@ -6,7 +6,7 @@ namespace Morph.Input.Controllers.Features.Buttons
     /// <summary>
     /// Morph controller button
     /// </summary>
-    public class MorphControllerButton : MorphControllerAbstractButton
+    public abstract class MorphControllerButton : MorphControllerAbstractButton
     {
         /// <summary>
         /// Is button pressed
@@ -19,7 +19,7 @@ namespace Morph.Input.Controllers.Features.Buttons
         public bool Pressed
         {
             get { return _pressed; }
-            set
+            protected set
             {
                 _pressed = value;
                 ButtonPressed?.Invoke(this, value);
@@ -31,7 +31,7 @@ namespace Morph.Input.Controllers.Features.Buttons
         /// </summary>
         public event EventHandler<bool> ButtonPressed;
 
-        public MorphControllerButton(string buttonName) : base(buttonName)
+        protected MorphControllerButton(string buttonName) : base(buttonName)
         {
         }
     }

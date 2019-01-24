@@ -4,6 +4,7 @@ using Morph.Components.Interaction;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
+using Morph.Input.Controllers.Oculus.Features.Buttons;
 using UnityEngine;
 
 namespace Morph.Input.Controllers.Oculus
@@ -15,15 +16,10 @@ namespace Morph.Input.Controllers.Oculus
     [RequireComponent(typeof(LineRenderer))]
     public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
-        public override MorphFeatureButtons Buttons => new MorphFeatureButtons(new[]
-            {
-                new MorphControllerButton("Back")
-            },
-            new[]
-            {
-                new MorphControllerTriggerButton("PrimaryIndexTrigger")
-            }
-        );
+        private MorphFeatureButtons _buttons;
+        private MorphOculusTrackedRemoteControllerButton _backButton;
+
+        public override MorphFeatureButtons Buttons => _buttons;
 
         [SerializeField]
         private GameObject _reticlePrefab;
@@ -43,6 +39,25 @@ namespace Morph.Input.Controllers.Oculus
         protected GameObject ControllerGameObject { get; set; }
         protected LineRenderer LineRenderer { get; set; }
 
+        public override bool Initialize()
+        {
+            if (!base.Initialize()) return false;
+
+            //Buttons
+            _backButton = new MorphOculusTrackedRemoteControllerButton("Back");
+
+            _buttons = new MorphFeatureButtons(new MorphControllerButton[]
+                {
+                    _backButton
+                },
+                new[]
+                {
+                    new MorphControllerTriggerButton("PrimaryIndexTrigger")
+                });
+
+            return true;
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -55,17 +70,6 @@ namespace Morph.Input.Controllers.Oculus
             {
                 new MorphTouchPadData(0, 0)
             };
-
-            //Buttons
-            /*Buttons.Buttons = new[]
-            {
-                new MorphControllerButton("Back")
-            };
-
-            Buttons.Triggers = new[]
-            {
-                new MorphControllerTriggerButton("PrimaryIndexTrigger")
-            };*/
 
             //Gestures
             SwipeGesture = new MorphControllerGestureSwipe();
@@ -292,7 +296,7 @@ namespace Morph.Input.Controllers.Oculus
             if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller))
             {
                 //Back button
-                if(Buttons.Buttons[0].Pressed) Buttons.Buttons[0].Pressed = false;
+                if(Buttons.Buttons[0].Pressed) _backButton.SetPressed(false);
 
                 //Index trigger
                 if(Math.Abs(Buttons.Triggers[0].TriggerValue) > 0.01f) Buttons.Triggers[0].TriggerValue = 0f;
@@ -301,9 +305,9 @@ namespace Morph.Input.Controllers.Oculus
             {
                 //Back button
                 if(OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller))
-                    Buttons.Buttons[0].Pressed = true;
+                    _backButton.SetPressed(true);
                 else if (OVRInput.GetUp(OVRInput.Button.Back, TrackedRemote.m_controller))
-                    Buttons.Buttons[0].Pressed = false;
+                    _backButton.SetPressed(false);
 
                 //Index trigger
                 Buttons.Triggers[0].TriggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, TrackedRemote.m_controller);

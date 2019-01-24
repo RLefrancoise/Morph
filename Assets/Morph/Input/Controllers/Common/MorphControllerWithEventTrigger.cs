@@ -18,8 +18,6 @@ namespace Morph.Input.Controllers.Common
     /// </summary>
     public abstract class MorphControllerWithEventTrigger<TMorphComponentFocusWithEventTrigger, TMorphComponentSelectWithEventTrigger, TMorphComponentGrabWithEventTrigger> : MorphAbstractController where TMorphComponentFocusWithEventTrigger : MorphComponentFocusWithEventTrigger where TMorphComponentSelectWithEventTrigger : MorphComponentSelectWithEventTrigger where TMorphComponentGrabWithEventTrigger : MorphComponentGrabWithEventTrigger
     {
-        public override MorphFeatureButtons Buttons => new MorphFeatureButtons();
-
         /// <summary>
         /// Currently grabbed object
         /// </summary>
