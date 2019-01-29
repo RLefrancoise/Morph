@@ -1,6 +1,6 @@
 {
     "Name": "Google VR",
-    "Scene": "Morph/Scenes/MorphGVRApplication",
+    "Scene": "Morph-GVR/Scenes/MorphGVRApplication",
     "Dependencies": [
         "GoogleVR"
     ]

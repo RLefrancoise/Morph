@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _applicationScene:
     sceneAsset: {fileID: 102900000, guid: 6475ad0d3c0d9474a9cb3fc2031dd2e1, type: 3}
-    scenePath: Assets/Morph/Scenes/MorphGVRApplication.unity
+    scenePath: Assets/Morph-GVR/Scenes/MorphGVRApplication.unity
   _scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: b7d88680e8b9b9b4eb50426c981c95e4, type: 3}
     scenePath: Assets/Morph-Examples/MorphExample-Cubes.unity
