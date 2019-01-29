@@ -42,8 +42,6 @@ namespace Morph.Input.Controllers.Oculus
 
         public override bool Initialize()
         {
-            if (!base.Initialize()) return false;
-
             //Buttons
             _backButton = new MorphControllerButton("Back");
 
@@ -58,7 +56,7 @@ namespace Morph.Input.Controllers.Oculus
                     _primaryIndexTrigger
                 });
 
-            return true;
+            return base.Initialize();
         }
 
         protected override void Awake()

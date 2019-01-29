@@ -28,9 +28,6 @@ namespace Morph.Input.Controllers
 
         public override bool Initialize()
         {
-            if (!base.Initialize())
-                return false;
-
             _leftButton = new MorphControllerButton("Left button");
             _rightButton = new MorphControllerButton("Right button");
             _middleButton = new MorphControllerButton("Middle button");
@@ -42,7 +39,7 @@ namespace Morph.Input.Controllers
                 _middleButton
             }, new MorphControllerTriggerButton[0]);
 
-            return true;
+            return base.Initialize();
         }
 
         protected override void BeforeUpdate()
