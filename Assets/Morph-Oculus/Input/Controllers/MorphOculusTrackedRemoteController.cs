@@ -26,8 +26,8 @@ namespace Morph.Input.Controllers.Oculus
         private GameObject _reticlePrefab;
 
         public override MorphControllerFeatures SupportedFeatures =>
-            MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking |
-            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures;
+            MorphControllerFeatures.Position | MorphControllerFeatures.Rotation |
+            MorphControllerFeatures.TouchPad | MorphControllerFeatures.Buttons | MorphControllerFeatures.Gestures | MorphControllerFeatures.ThreeDegreesOfFreedom;
 
         public OVRTrackedRemote TrackedRemote { get; protected set; }
 

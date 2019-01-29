@@ -164,8 +164,8 @@ namespace Morph.Input.Controllers
 
             BeforeUpdate();
 
-            if(HasFeatures(MorphControllerFeatures.PositionTracking)) UpdatePosition();
-            if(HasFeatures(MorphControllerFeatures.RotationTracking)) UpdateRotation();
+            if(HasFeatures(MorphControllerFeatures.Position)) UpdatePosition();
+            if(HasFeatures(MorphControllerFeatures.Rotation)) UpdateRotation();
             if(HasFeatures(MorphControllerFeatures.TouchPad)) UpdateTouchPad();
             if(HasFeatures(MorphControllerFeatures.Buttons)) UpdateButtons();
             if(HasFeatures(MorphControllerFeatures.Gestures)) UpdateGestures();

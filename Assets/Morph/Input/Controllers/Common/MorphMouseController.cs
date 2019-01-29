@@ -22,7 +22,7 @@ namespace Morph.Input.Controllers
         private MorphControllerButton _middleButton;
         private MorphFeatureButtons _buttons;
 
-        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking | MorphControllerFeatures.Buttons;
+        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons;
 
         public override MorphFeatureButtons Buttons => _buttons;
 
@@ -32,12 +32,12 @@ namespace Morph.Input.Controllers
             _rightButton = new MorphControllerButton("Right button");
             _middleButton = new MorphControllerButton("Middle button");
 
-            _buttons = new MorphFeatureButtons(new[]
+            _buttons = new MorphFeatureButtons(new IMorphControllerButton[]
             {
                 _leftButton,
                 _rightButton,
                 _middleButton
-            }, new MorphControllerTriggerButton[0]);
+            });
 
             return base.Initialize();
         }

@@ -15,7 +15,7 @@ namespace Morph.Input.Controllers.Common
     /// </summary>
     public class MorphTouchController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
-        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
+        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position;
         public override MorphFeatureButtons Buttons => null;
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.GetTouch(0).position);

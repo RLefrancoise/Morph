@@ -15,11 +15,11 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Position tracking
         /// </summary>
-        PositionTracking = 1 << 0,
+        Position = 1 << 0,
         /// <summary>
         /// Rotation tracking
         /// </summary>
-        RotationTracking = 1 << 1,
+        Rotation = 1 << 1,
         /// <summary>
         /// Touchpad
         /// </summary>
@@ -35,6 +35,14 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Haptics
         /// </summary>
-        Haptics = 1 << 5
+        Haptics = 1 << 5,
+        /// <summary>
+        /// 3DOF
+        /// </summary>
+        ThreeDegreesOfFreedom = 1 << 6,
+        /// <summary>
+        /// 6DOF
+        /// </summary>
+        SixDegreesOfFreedom = 1 << 7
     }
 }

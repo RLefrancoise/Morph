@@ -38,7 +38,7 @@ namespace Morph.Input.Controllers.GoogleVR
         /// </summary>
         public GvrReticlePointer Reticle { get; private set; }
 
-        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
+        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Rotation;
         public override MorphFeatureButtons Buttons => null;
 
         protected override Ray GrabbedRay => new Ray(transform.position, transform.forward);
