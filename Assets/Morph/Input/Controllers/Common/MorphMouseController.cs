@@ -6,7 +6,6 @@ using Morph.Core;
 using Morph.Input.Controllers.Common;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
-using Morph.Input.Controllers.Features.Buttons.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,9 +17,9 @@ namespace Morph.Input.Controllers
     /// </summary>
     public class MorphMouseController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
-        private MorphMouseControllerButton _leftButton;
-        private MorphMouseControllerButton _rightButton;
-        private MorphMouseControllerButton _middleButton;
+        private MorphControllerButton _leftButton;
+        private MorphControllerButton _rightButton;
+        private MorphControllerButton _middleButton;
         private MorphFeatureButtons _buttons;
 
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking | MorphControllerFeatures.Buttons;
@@ -32,11 +31,11 @@ namespace Morph.Input.Controllers
             if (!base.Initialize())
                 return false;
 
-            _leftButton = new MorphMouseControllerButton("Left button");
-            _rightButton = new MorphMouseControllerButton("Right button");
-            _middleButton = new MorphMouseControllerButton("Middle button");
+            _leftButton = new MorphControllerButton("Left button");
+            _rightButton = new MorphControllerButton("Right button");
+            _middleButton = new MorphControllerButton("Middle button");
 
-            _buttons = new MorphFeatureButtons(new MorphControllerButton[]
+            _buttons = new MorphFeatureButtons(new[]
             {
                 _leftButton,
                 _rightButton,
@@ -60,9 +59,9 @@ namespace Morph.Input.Controllers
         {
             base.UpdateButtons();
 
-            _leftButton.SetPressed(UnityEngine.Input.GetMouseButton(0));
-            _rightButton.SetPressed(UnityEngine.Input.GetMouseButton(1));
-            _middleButton.SetPressed(UnityEngine.Input.GetMouseButton(2));
+            _leftButton.Pressed = UnityEngine.Input.GetMouseButton(0);
+            _rightButton.Pressed = UnityEngine.Input.GetMouseButton(1);
+            _middleButton.Pressed = UnityEngine.Input.GetMouseButton(2);
         }
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.mousePosition);

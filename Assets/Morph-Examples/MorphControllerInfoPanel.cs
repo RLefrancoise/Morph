@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Morph.Core;
 using Morph.Input.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Morph_Examples
+namespace Morph.Examples
 {
     public class MorphControllerInfoPanel : MonoBehaviour
     {

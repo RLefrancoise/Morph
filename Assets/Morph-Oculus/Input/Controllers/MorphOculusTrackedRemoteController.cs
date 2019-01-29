@@ -4,7 +4,6 @@ using Morph.Components.Interaction;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
-using Morph.Input.Controllers.Oculus.Features.Buttons;
 using UnityEngine;
 
 namespace Morph.Input.Controllers.Oculus
@@ -17,7 +16,9 @@ namespace Morph.Input.Controllers.Oculus
     public class MorphOculusTrackedRemoteController : MorphAbstractController
     {
         private MorphFeatureButtons _buttons;
-        private MorphOculusTrackedRemoteControllerButton _backButton;
+        private MorphControllerButton _backButton;
+
+        private MorphControllerTriggerButton _primaryIndexTrigger;
 
         public override MorphFeatureButtons Buttons => _buttons;
 
@@ -44,15 +45,17 @@ namespace Morph.Input.Controllers.Oculus
             if (!base.Initialize()) return false;
 
             //Buttons
-            _backButton = new MorphOculusTrackedRemoteControllerButton("Back");
+            _backButton = new MorphControllerButton("Back");
 
-            _buttons = new MorphFeatureButtons(new MorphControllerButton[]
+            _primaryIndexTrigger = new MorphControllerTriggerButton("PrimaryIndexTrigger");
+
+            _buttons = new MorphFeatureButtons(new[]
                 {
                     _backButton
                 },
                 new[]
                 {
-                    new MorphControllerTriggerButton("PrimaryIndexTrigger")
+                    _primaryIndexTrigger
                 });
 
             return true;
@@ -296,21 +299,21 @@ namespace Morph.Input.Controllers.Oculus
             if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller))
             {
                 //Back button
-                if(Buttons.Buttons[0].Pressed) _backButton.SetPressed(false);
+                if(Buttons.Buttons[0].Pressed) _backButton.Pressed = false;
 
                 //Index trigger
-                if(Math.Abs(Buttons.Triggers[0].TriggerValue) > 0.01f) Buttons.Triggers[0].TriggerValue = 0f;
+                if(Math.Abs(Buttons.Triggers[0].TriggerValue) > 0.01f) _primaryIndexTrigger.TriggerValue = 0f;
             }
             else
             {
                 //Back button
                 if(OVRInput.GetDown(OVRInput.Button.Back, TrackedRemote.m_controller))
-                    _backButton.SetPressed(true);
+                    _backButton.Pressed = true;
                 else if (OVRInput.GetUp(OVRInput.Button.Back, TrackedRemote.m_controller))
-                    _backButton.SetPressed(false);
+                    _backButton.Pressed = false;
 
                 //Index trigger
-                Buttons.Triggers[0].TriggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, TrackedRemote.m_controller);
+                _primaryIndexTrigger.TriggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, TrackedRemote.m_controller);
             }
         }
 

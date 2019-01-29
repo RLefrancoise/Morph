@@ -1,5 +1,4 @@
-﻿using Morph.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Morph.Examples
 {

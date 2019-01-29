@@ -10,8 +10,8 @@ namespace Morph.Input.Controllers.Features
     {
         public MorphFeatureButtons()
         {
-            Buttons = new MorphControllerButton[0];
-            Triggers = new MorphControllerTriggerButton[0];
+            Buttons = new IMorphControllerButton[0];
+            Triggers = new IMorphControllerTriggerButton[0];
         }
 
         public MorphFeatureButtons(MorphControllerButton[] buttons, MorphControllerTriggerButton[] triggers)
@@ -23,11 +23,11 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Buttons
         /// </summary>
-        public MorphControllerButton[] Buttons { get; }
+        public IMorphControllerButton[] Buttons { get; }
 
         /// <summary>
         /// Triggers
         /// </summary>
-        public MorphControllerTriggerButton[] Triggers { get; }
+        public IMorphControllerTriggerButton[] Triggers { get; }
     }
 }
