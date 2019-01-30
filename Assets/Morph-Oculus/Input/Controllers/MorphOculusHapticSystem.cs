@@ -6,7 +6,7 @@ namespace Morph.Input.Controllers.Oculus
     /// <summary>
     /// Morph controller haptic system for Oculus
     /// </summary>
-    public class MorphOculusHapticSystem : MorphControllerHapticSystem
+    public class MorphOculusHapticSystem : IMorphControllerHapticSystem
     {
         /// <summary>
         /// Controller of the haptic system
@@ -22,7 +22,7 @@ namespace Morph.Input.Controllers.Oculus
             Controller = controller;
         }
 
-        public override void SetControllerVibration(float frequency, float amplitude)
+        public void SetControllerVibration(float frequency, float amplitude)
         {
             if (!OVRInput.IsControllerConnected(Controller)) return;
             OVRInput.SetControllerVibration(frequency, amplitude, Controller);
