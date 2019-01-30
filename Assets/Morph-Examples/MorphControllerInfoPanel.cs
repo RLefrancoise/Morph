@@ -43,7 +43,7 @@ namespace Morph.Examples
                 {
                     //Touchpad
                     _text.text += "Touchpad:\n";
-                    foreach (var touchpad in controller.TouchPad.TouchPads)
+                    foreach (var touchpad in controller.Touchpads.Touchpads)
                     {
                         _text.text += $"H: {touchpad.HorizontalAxisValue}\n" +
                                       $"V: {touchpad.VerticalAxisValue}\n" +

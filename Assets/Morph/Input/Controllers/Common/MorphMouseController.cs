@@ -24,6 +24,7 @@ namespace Morph.Input.Controllers
 
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons;
 
+        public override MorphFeatureTouchpads Touchpads => null;
         public override MorphFeatureButtons Buttons => _buttons;
 
         public override bool Initialize()

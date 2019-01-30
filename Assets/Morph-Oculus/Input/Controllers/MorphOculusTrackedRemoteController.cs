@@ -4,6 +4,7 @@ using Morph.Components.Interaction;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
+using Morph.Input.Controllers.Features.Touchpad;
 using UnityEngine;
 
 namespace Morph.Input.Controllers.Oculus
@@ -17,10 +18,13 @@ namespace Morph.Input.Controllers.Oculus
     {
         private MorphFeatureButtons _buttons;
         private MorphControllerButton _backButton;
-
         private MorphControllerTriggerButton _primaryIndexTrigger;
 
+        private MorphTouchpad _primaryTouchpad;
+        private MorphFeatureTouchpads _touchpads;
+
         public override MorphFeatureButtons Buttons => _buttons;
+        public override MorphFeatureTouchpads Touchpads => _touchpads;
 
         [SerializeField]
         private GameObject _reticlePrefab;
@@ -44,17 +48,25 @@ namespace Morph.Input.Controllers.Oculus
         {
             //Buttons
             _backButton = new MorphControllerButton("Back");
-
             _primaryIndexTrigger = new MorphControllerTriggerButton("PrimaryIndexTrigger");
 
-            _buttons = new MorphFeatureButtons(new[]
+            _buttons = new MorphFeatureButtons(
+                new IMorphControllerButton[]
                 {
                     _backButton
                 },
-                new[]
+                new IMorphControllerTriggerButton[]
                 {
                     _primaryIndexTrigger
                 });
+
+            //Touchpad
+            _primaryTouchpad = new MorphTouchpad();
+
+            _touchpads = new MorphFeatureTouchpads(new IMorphTouchpad[]
+            {
+                _primaryTouchpad
+            });
 
             return base.Initialize();
         }
@@ -66,12 +78,6 @@ namespace Morph.Input.Controllers.Oculus
             TrackedRemote = GetComponent<OVRTrackedRemote>();
             LineRenderer = GetComponent<LineRenderer>();
 
-            //Touchpad
-            TouchPad.TouchPads = new[]
-            {
-                new MorphTouchPadData(0, 0)
-            };
-
             //Gestures
             SwipeGesture = new MorphControllerGestureSwipe();
             Gestures.Gestures = new MorphControllerGesture[]
@@ -80,7 +86,7 @@ namespace Morph.Input.Controllers.Oculus
             };
 
             //Listen touchpad and trigger for select & grab
-            TouchPad.TouchPads[0].TouchpadClicked += ListenTouchpadClicked;
+            Touchpads.Touchpads[0].TouchpadClicked += ListenTouchpadClicked;
             Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
         }
 
@@ -176,7 +182,7 @@ namespace Morph.Input.Controllers.Oculus
                 LastHitComponent.transform.RotateAround(transform.position, Rotation.ForwardDirection, Rotation.RotationDelta.z);
 
                 //Look for touchpad delta to move grabbed component closer or farer
-                float verticalDelta = TouchPad.TouchPads[0].VerticalAxisDelta;
+                float verticalDelta = Touchpads.Touchpads[0].VerticalAxisDelta;
                 LastHitComponent.transform.Translate(transform.forward * GrabbedComponentInitialDistance * verticalDelta);
             }
         }
@@ -243,12 +249,12 @@ namespace Morph.Input.Controllers.Oculus
 
             if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller))
             {
-                TouchPad.TouchPads[0].HorizontalAxisValue = 0f;
-                TouchPad.TouchPads[0].VerticalAxisValue = 0f;
-                TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
-                TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
+                _primaryTouchpad.HorizontalAxisValue = 0f;
+                _primaryTouchpad.VerticalAxisValue = 0f;
+                _primaryTouchpad.HorizontalAxisDelta = 0f;
+                _primaryTouchpad.VerticalAxisDelta = 0f;
 
-                if(TouchPad.TouchPads[0].Clicked) TouchPad.TouchPads[0].Clicked = false;
+                if(_primaryTouchpad.Clicked) _primaryTouchpad.Clicked = false;
             }
             else
             {
@@ -256,36 +262,36 @@ namespace Morph.Input.Controllers.Oculus
                 {
                     Vector2 touchPad = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad, TrackedRemote.m_controller);
 
-                    if (TouchPad.TouchPads[0].HorizontalAxisValue == 0f)
-                        TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
+                    if (_primaryTouchpad.HorizontalAxisValue == 0f)
+                        _primaryTouchpad.HorizontalAxisDelta = 0f;
                     else
-                        TouchPad.TouchPads[0].HorizontalAxisDelta = touchPad.x - TouchPad.TouchPads[0].HorizontalAxisValue;
+                        _primaryTouchpad.HorizontalAxisDelta = touchPad.x - Touchpads.Touchpads[0].HorizontalAxisValue;
 
-                    if (TouchPad.TouchPads[0].VerticalAxisValue == 0f)
-                        TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
+                    if (_primaryTouchpad.VerticalAxisValue == 0f)
+                        _primaryTouchpad.VerticalAxisDelta = 0f;
                     else
-                        TouchPad.TouchPads[0].VerticalAxisDelta = touchPad.y - TouchPad.TouchPads[0].VerticalAxisValue;
+                        _primaryTouchpad.VerticalAxisDelta = touchPad.y - Touchpads.Touchpads[0].VerticalAxisValue;
 
-                    TouchPad.TouchPads[0].HorizontalAxisValue = touchPad.x;
-                    TouchPad.TouchPads[0].VerticalAxisValue = touchPad.y;
+                    _primaryTouchpad.HorizontalAxisValue = touchPad.x;
+                    _primaryTouchpad.VerticalAxisValue = touchPad.y;
                 }
                 else
                 {
-                    TouchPad.TouchPads[0].HorizontalAxisDelta = 0f;
-                    TouchPad.TouchPads[0].VerticalAxisDelta = 0f;
-                    TouchPad.TouchPads[0].HorizontalAxisValue = 0f;
-                    TouchPad.TouchPads[0].VerticalAxisValue = 0f;
+                    _primaryTouchpad.HorizontalAxisDelta = 0f;
+                    _primaryTouchpad.VerticalAxisDelta = 0f;
+                    _primaryTouchpad.HorizontalAxisValue = 0f;
+                    _primaryTouchpad.VerticalAxisValue = 0f;
                 }
                 
                 //Is touchpad clicked ?
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryTouchpad))
                 {
-                    TouchPad.TouchPads[0].Clicked = true;
+                    _primaryTouchpad.Clicked = true;
                 }
                 //Is touchped released ?
                 else if (OVRInput.GetUp(OVRInput.Button.PrimaryTouchpad))
                 {
-                    TouchPad.TouchPads[0].Clicked = false;
+                    _primaryTouchpad.Clicked = false;
                 }
             }
         }

@@ -24,7 +24,7 @@ namespace Morph.Input.Controllers
         public abstract MorphControllerFeatures SupportedFeatures { get; }
         public MorphFeaturePositionTracking Position { get; private set; }
         public MorphFeatureRotationTracking Rotation { get; private set; }
-        public MorphFeatureTouchPad TouchPad { get; private set; }
+        public abstract MorphFeatureTouchpads Touchpads { get; }
         public abstract MorphFeatureButtons Buttons { get; }
         public MorphFeatureGestures Gestures { get; private set; }
         public MorphFeatureHaptics Haptics { get; private set; }
@@ -152,7 +152,7 @@ namespace Morph.Input.Controllers
         {
             Position = new MorphFeaturePositionTracking();
             Rotation = new MorphFeatureRotationTracking();
-            TouchPad = new MorphFeatureTouchPad();
+            //TouchPad = new MorphFeatureTouchPad();
             //Buttons = new MorphFeatureButtons();
             Gestures = new MorphFeatureGestures();
             Haptics = new MorphFeatureHaptics();

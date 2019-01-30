@@ -29,7 +29,7 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Trackpad
         /// </summary>
-        MorphFeatureTouchPad TouchPad { get; }
+        MorphFeatureTouchpads Touchpads { get; }
 
         /// <summary>
         /// Buttons
