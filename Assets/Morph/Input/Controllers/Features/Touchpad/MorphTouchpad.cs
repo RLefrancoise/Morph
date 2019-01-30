@@ -13,6 +13,11 @@ namespace Morph.Input.Controllers.Features.Touchpad
         /// </summary>
         private bool _clicked;
 
+        private float _horizontalAxisValue;
+        private float _verticalAxisValue;
+        private float _horizontalAxisDelta;
+        private float _verticalAxisDelta;
+
         public bool Clicked
         {
             get { return _clicked; }
@@ -23,11 +28,50 @@ namespace Morph.Input.Controllers.Features.Touchpad
             }
         }
 
-        public event EventHandler<bool> TouchpadClicked;
+        public float HorizontalAxisValue
+        {
+            get { return _horizontalAxisValue; }
+            set
+            {
+                _horizontalAxisValue = value;
+                HorizontalAxisValueChanged?.Invoke(this, value);
+            }
+        }
 
-        public float HorizontalAxisValue { get; set; }
-        public float VerticalAxisValue { get; set; }
-        public float HorizontalAxisDelta { get; set; }
-        public float VerticalAxisDelta { get; set; }
+        public float VerticalAxisValue
+        {
+            get { return _verticalAxisValue; }
+            set
+            {
+                _verticalAxisValue = value;
+                VerticalAxisValueChanged?.Invoke(this, value);
+            }
+        }
+
+        public float HorizontalAxisDelta
+        {
+            get { return _horizontalAxisDelta; }
+            set
+            {
+                _horizontalAxisDelta = value;
+                HorizontalAxisDeltaChanged?.Invoke(this, value);
+            }
+        }
+
+        public float VerticalAxisDelta
+        {
+            get { return _verticalAxisDelta; }
+            set
+            {
+                _verticalAxisDelta = value;
+                VerticalAxisDeltaChanged?.Invoke(this, value);
+            }
+        }
+
+        public event EventHandler<bool> TouchpadClicked;
+        public event EventHandler<float> HorizontalAxisValueChanged;
+        public event EventHandler<float> VerticalAxisValueChanged;
+        public event EventHandler<float> HorizontalAxisDeltaChanged;
+        public event EventHandler<float> VerticalAxisDeltaChanged;
     }
 }

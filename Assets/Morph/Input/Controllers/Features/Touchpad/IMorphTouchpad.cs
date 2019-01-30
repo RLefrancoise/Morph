@@ -34,7 +34,23 @@ namespace Morph.Input.Controllers.Features.Touchpad
         /// <summary>
         /// Delta of vertical axis between current value and previous value
         /// </summary>
-        /// <value></value>
         float VerticalAxisDelta { get; }
+
+        /// <summary>
+        /// Horizontal axis value changed event
+        /// </summary>
+        event EventHandler<float> HorizontalAxisValueChanged;
+        /// <summary>
+        /// Vertical axis value changed event
+        /// </summary>
+        event EventHandler<float> VerticalAxisValueChanged;
+        /// <summary>
+        /// Horizontal axis delta changed
+        /// </summary>
+        event EventHandler<float> HorizontalAxisDeltaChanged;
+        /// <summary>
+        /// Vertical axis delta changed
+        /// </summary>
+        event EventHandler<float> VerticalAxisDeltaChanged;
     }
 }
