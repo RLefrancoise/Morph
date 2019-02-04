@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Morph.Core;
 using Morph.Input.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Morph_Examples
+namespace Morph.Examples
 {
     public class MorphControllerInfoPanel : MonoBehaviour
     {
@@ -44,7 +43,7 @@ namespace Assets.Morph_Examples
                 {
                     //Touchpad
                     _text.text += "Touchpad:\n";
-                    foreach (var touchpad in controller.TouchPad.TouchPads)
+                    foreach (var touchpad in controller.Touchpads.Touchpads)
                     {
                         _text.text += $"H: {touchpad.HorizontalAxisValue}\n" +
                                       $"V: {touchpad.VerticalAxisValue}\n" +

@@ -12,11 +12,16 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Recognizable gestures
         /// </summary>
-        public MorphControllerGesture[] Gestures { get; internal set; }
+        public IMorphControllerGesture[] Gestures { get; }
 
         /// <summary>
         /// Gesture recognized event
         /// </summary>
-        public event EventHandler<MorphControllerGesture> GestureRecognized;
+        public event EventHandler<IMorphControllerGesture> GestureRecognized;
+
+        public MorphFeatureGestures(IMorphControllerGesture[] gestures)
+        {
+            Gestures = gestures;
+        }
     }
 }

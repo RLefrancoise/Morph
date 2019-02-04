@@ -1,0 +1,9 @@
+{
+    "name": "Morph.Oculus",
+    "references": [
+        "Morph",
+        "Oculus.VR"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

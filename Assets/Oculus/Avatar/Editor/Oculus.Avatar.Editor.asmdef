@@ -1,0 +1,8 @@
+{
+    "name": "Oculus.Avatar.Editor",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

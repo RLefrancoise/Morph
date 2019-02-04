@@ -1,0 +1,10 @@
+{
+    "name": "Oculus.Spatializer.Editor",
+    "references": [
+        "Oculus.Spatializer"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

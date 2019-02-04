@@ -4,6 +4,8 @@ using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
 using Morph.Core;
 using Morph.Input.Controllers.Common;
+using Morph.Input.Controllers.Features;
+using Morph.Input.Controllers.Features.Buttons;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,7 +17,33 @@ namespace Morph.Input.Controllers
     /// </summary>
     public class MorphMouseController : MorphControllerWithEventTrigger<MorphComponentFocusWithEventTrigger, MorphComponentSelectWithEventTrigger, MorphComponentGrabWithEventTrigger>
     {
-        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.PositionTracking | MorphControllerFeatures.RotationTracking;
+        private MorphControllerButton _leftButton;
+        private MorphControllerButton _rightButton;
+        private MorphControllerButton _middleButton;
+        private MorphFeatureButtons _buttons;
+
+        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons;
+
+        public override MorphFeatureTouchpads Touchpads => null;
+        public override MorphFeatureButtons Buttons => _buttons;
+        public override MorphFeatureGestures Gestures => null; //TODO: to be implemented
+        public override MorphFeatureHaptics Haptics => null;
+
+        public override bool Initialize()
+        {
+            _leftButton = new MorphControllerButton("Left button");
+            _rightButton = new MorphControllerButton("Right button");
+            _middleButton = new MorphControllerButton("Middle button");
+
+            _buttons = new MorphFeatureButtons(new IMorphControllerButton[]
+            {
+                _leftButton,
+                _rightButton,
+                _middleButton
+            });
+
+            return base.Initialize();
+        }
 
         protected override void BeforeUpdate()
         {
@@ -25,6 +53,15 @@ namespace Morph.Input.Controllers
                 MorphMain.Instance.Application.MainDisplay.Camera.ScreenToWorldPoint(
                     new Vector3(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y, MorphMain.Instance.Application.MainDisplay.Camera.nearClipPlane));
             transform.rotation = Quaternion.identity;
+        }
+
+        protected override void UpdateButtons()
+        {
+            base.UpdateButtons();
+
+            _leftButton.Pressed = UnityEngine.Input.GetMouseButton(0);
+            _rightButton.Pressed = UnityEngine.Input.GetMouseButton(1);
+            _middleButton.Pressed = UnityEngine.Input.GetMouseButton(2);
         }
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.mousePosition);

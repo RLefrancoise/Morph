@@ -1,0 +1,10 @@
+{
+    "name": "GoogleVR",
+    "references": [],
+    "includePlatforms": [
+        "Android",
+        "Editor",
+        "iOS"
+    ],
+    "excludePlatforms": []
+}

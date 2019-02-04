@@ -1,0 +1,10 @@
+{
+    "name": "Morph.Editor",
+    "references": [
+        "Morph"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

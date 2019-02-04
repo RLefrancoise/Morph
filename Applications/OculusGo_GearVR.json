@@ -1,6 +1,6 @@
 {
     "Name": "Oculus Go - Gear VR",
-    "Scene": "Morph/Scenes/MorphOculusApplication",
+    "Scene": "Morph-Oculus/Scenes/MorphOculusApplication",
     "Dependencies": [
         "Oculus"
     ]

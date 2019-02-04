@@ -1,0 +1,8 @@
+{
+    "name": "Morph.Examples",
+    "references": [
+        "Morph"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}
