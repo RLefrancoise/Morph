@@ -5,6 +5,7 @@ using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
 using Morph.Input.Controllers.Features.Gestures;
 using Morph.Input.Controllers.Features.Touchpad;
+using Morph.Input.Controllers.Oculus.Features.Gestures;
 using UnityEngine;
 
 namespace Morph.Input.Controllers.Oculus
@@ -23,8 +24,11 @@ namespace Morph.Input.Controllers.Oculus
         private MorphTouchpad _primaryTouchpad;
         private MorphFeatureTouchpads _touchpads;
 
+        private MorphFeatureGestures _gestures;
+
         public override MorphFeatureButtons Buttons => _buttons;
         public override MorphFeatureTouchpads Touchpads => _touchpads;
+        public override MorphFeatureGestures Gestures => _gestures;
 
         [SerializeField]
         private GameObject _reticlePrefab;
@@ -48,7 +52,9 @@ namespace Morph.Input.Controllers.Oculus
         {
             //Buttons
             _backButton = new MorphControllerButton("Back");
+
             _primaryIndexTrigger = new MorphControllerTriggerButton("PrimaryIndexTrigger");
+            _primaryIndexTrigger.TriggerValueChanged += ListenTriggerValue; //Listen for select & grab
 
             _buttons = new MorphFeatureButtons(
                 new IMorphControllerButton[]
@@ -62,11 +68,17 @@ namespace Morph.Input.Controllers.Oculus
 
             //Touchpad
             _primaryTouchpad = new MorphTouchpad();
+            _primaryTouchpad.TouchpadClicked += ListenTouchpadClicked; //Listen touchpad for select & grab
 
             _touchpads = new MorphFeatureTouchpads(new IMorphTouchpad[]
             {
                 _primaryTouchpad
             });
+
+            //Gestures
+            SwipeGesture = new MorphOculusControllerGestureSwipe(TrackedRemote.m_controller);
+
+            _gestures = new MorphFeatureGestures(new IMorphControllerGesture[] {SwipeGesture});
 
             return base.Initialize();
         }
@@ -77,17 +89,6 @@ namespace Morph.Input.Controllers.Oculus
 
             TrackedRemote = GetComponent<OVRTrackedRemote>();
             LineRenderer = GetComponent<LineRenderer>();
-
-            //Gestures
-            SwipeGesture = new MorphControllerGestureSwipe();
-            Gestures.Gestures = new MorphControllerGesture[]
-            {
-                SwipeGesture
-            };
-
-            //Listen touchpad and trigger for select & grab
-            Touchpads.Touchpads[0].TouchpadClicked += ListenTouchpadClicked;
-            Buttons.Triggers[0].TriggerValueChanged += ListenTriggerValue;
         }
 
         protected override void BeforeUpdate()
@@ -323,21 +324,7 @@ namespace Morph.Input.Controllers.Oculus
 
         protected override void UpdateGestures()
         {
-            if (!OVRInput.IsControllerConnected(TrackedRemote.m_controller)) return;
-
-            //Swipe
-            MorphControllerGestureSwipe.SwipeDirections swipeDirections = 0;
-
-            if (OVRInput.GetDown(OVRInput.Button.DpadUp)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeUp;
-            if (OVRInput.GetDown(OVRInput.Button.DpadDown)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeDown;
-            if (OVRInput.GetDown(OVRInput.Button.DpadLeft)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeLeft;
-            if (OVRInput.GetDown(OVRInput.Button.DpadRight)) swipeDirections |= MorphControllerGestureSwipe.SwipeDirections.SwipeRight;
-
-            if (swipeDirections != 0)
-            {
-                SwipeGesture.Directions = swipeDirections;
-                SwipeGesture.Recognize();
-            }
+            SwipeGesture.Update();
         }
     }
 }

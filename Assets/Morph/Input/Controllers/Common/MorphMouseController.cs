@@ -26,6 +26,7 @@ namespace Morph.Input.Controllers
 
         public override MorphFeatureTouchpads Touchpads => null;
         public override MorphFeatureButtons Buttons => _buttons;
+        public override MorphFeatureGestures Gestures => null; //TODO: to be implemented
 
         public override bool Initialize()
         {

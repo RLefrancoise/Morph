@@ -22,11 +22,11 @@ namespace Morph.Input.Controllers
         #region IMorphController Implementation
 
         public abstract MorphControllerFeatures SupportedFeatures { get; }
-        public MorphFeaturePositionTracking Position { get; private set; }
-        public MorphFeatureRotationTracking Rotation { get; private set; }
+        public MorphFeaturePosition Position { get; private set; }
+        public MorphFeatureRotation Rotation { get; private set; }
         public abstract MorphFeatureTouchpads Touchpads { get; }
         public abstract MorphFeatureButtons Buttons { get; }
-        public MorphFeatureGestures Gestures { get; private set; }
+        public abstract MorphFeatureGestures Gestures { get; }
         public MorphFeatureHaptics Haptics { get; private set; }
         public bool IsInitialized { get; private set; }
 
@@ -34,10 +34,6 @@ namespace Morph.Input.Controllers
         {
             //Listen for controller destruction to destroy gameObject
             MorphMain.Instance.Application.WhenControllerDestroyed += ControllerDestroyed;
-
-            //Listen components registration
-            MorphMain.Instance.Application.WhenComponentRegistered += ComponentRegistered;
-            MorphMain.Instance.Application.WhenComponentUnregistered += ComponentUnregistered;
 
             IsInitialized = true;
 
@@ -47,9 +43,6 @@ namespace Morph.Input.Controllers
         public bool DeInitialize()
         {
             MorphMain.Instance.Application.WhenControllerDestroyed -= ControllerDestroyed;
-
-            MorphMain.Instance.Application.WhenComponentRegistered -= ComponentRegistered;
-            MorphMain.Instance.Application.WhenComponentUnregistered -= ComponentUnregistered;
 
             return false;
         }
@@ -71,31 +64,9 @@ namespace Morph.Input.Controllers
             }
         }
 
-        private void ComponentRegistered(object sender, IMorphComponent component)
-        {
-            WhenComponentRegistered(component);
-        }
-
-        private void ComponentUnregistered(object sender, IMorphComponent component)
-        {
-            WhenComponentUnregistered(component);
-        }
-
         #endregion
 
         #region Protected Methods
-
-        /// <summary>
-        /// Called when component has been registered. Override it to do custom action when it happens.
-        /// </summary>
-        /// <param name="component">registered component</param>
-        protected virtual void WhenComponentRegistered(IMorphComponent component) { }
-
-        /// <summary>
-        /// Called when component has been unregistered. Override it to do custom action when it happens.
-        /// </summary>
-        /// <param name="component">unregistered component</param>
-        protected virtual void WhenComponentUnregistered(IMorphComponent component) { }
 
         /// <summary>
         /// Called before updating the controller. Override it to do custom actions before update
@@ -150,11 +121,8 @@ namespace Morph.Input.Controllers
 
         protected virtual void Awake()
         {
-            Position = new MorphFeaturePositionTracking();
-            Rotation = new MorphFeatureRotationTracking();
-            //TouchPad = new MorphFeatureTouchPad();
-            //Buttons = new MorphFeatureButtons();
-            Gestures = new MorphFeatureGestures();
+            Position = new MorphFeaturePosition();
+            Rotation = new MorphFeatureRotation();
             Haptics = new MorphFeatureHaptics();
         }
 

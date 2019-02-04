@@ -19,12 +19,12 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// Position
         /// </summary>
-        MorphFeaturePositionTracking Position { get; }
+        MorphFeaturePosition Position { get; }
 
         /// <summary>
         /// Rotation
         /// </summary>
-        MorphFeatureRotationTracking Rotation { get; }
+        MorphFeatureRotation Rotation { get; }
 
         /// <summary>
         /// Trackpad

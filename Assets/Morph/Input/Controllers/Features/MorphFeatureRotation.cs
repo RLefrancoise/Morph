@@ -4,9 +4,9 @@ namespace Morph.Input.Controllers.Features
 {
     /// <inheritdoc />
     /// <summary>
-    /// Rotation tracking feature
+    /// Rotation feature
     /// </summary>
-    public class MorphFeatureRotationTracking : IMorphControllerFeature
+    public class MorphFeatureRotation : IMorphControllerFeature
     {
         /// <summary>
         /// Rotation in world space

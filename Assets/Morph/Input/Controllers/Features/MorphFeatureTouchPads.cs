@@ -18,6 +18,4 @@ namespace Morph.Input.Controllers.Features
             Touchpads = touchpads;
         }
     }
-
-    
 }

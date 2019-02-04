@@ -6,7 +6,7 @@ namespace Morph.Input.Controllers.Features.Gestures
     /// <summary>
     /// Morph controller swipe gesture
     /// </summary>
-    public class MorphControllerGestureSwipe : MorphControllerGesture
+    public abstract class MorphControllerGestureSwipe : MorphControllerGesture
     {
         /// <summary>
         /// Swipe type
@@ -37,7 +37,7 @@ namespace Morph.Input.Controllers.Features.Gestures
         /// </summary>
         public SwipeDirections Directions { get; set; }
 
-        public MorphControllerGestureSwipe() : base(MorphControllerGestureType.Swipe)
+        protected MorphControllerGestureSwipe() : base(MorphControllerGestureType.Swipe)
         {
         }
     }
