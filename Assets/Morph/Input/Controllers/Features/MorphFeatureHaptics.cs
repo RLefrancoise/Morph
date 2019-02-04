@@ -11,6 +11,11 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Haptic system to use to controller vibration of the controller.
         /// </summary>
-        public IMorphControllerHapticSystem HapticSystem { get; set; }
+        public IMorphControllerHapticSystem HapticSystem { get; }
+
+        public MorphFeatureHaptics(IMorphControllerHapticSystem hapticSystem)
+        {
+            HapticSystem = hapticSystem;
+        }
     }
 }

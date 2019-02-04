@@ -19,6 +19,7 @@ namespace Morph.Input.Controllers.Common
         public override MorphFeatureTouchpads Touchpads => null;
         public override MorphFeatureButtons Buttons => null;
         public override MorphFeatureGestures Gestures => null; //TODO: to be implemented
+        public override MorphFeatureHaptics Haptics => null;
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.GetTouch(0).position);
 

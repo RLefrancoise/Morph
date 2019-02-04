@@ -42,6 +42,7 @@ namespace Morph.Input.Controllers.GoogleVR
         public override MorphFeatureTouchpads Touchpads => null;
         public override MorphFeatureButtons Buttons => null;
         public override MorphFeatureGestures Gestures => null;
+        public override MorphFeatureHaptics Haptics => null;
 
         protected override Ray GrabbedRay => new Ray(transform.position, transform.forward);
         protected override Predicate<BaseEventData> SelectValidation => eventData => Reticle.TriggerDown;

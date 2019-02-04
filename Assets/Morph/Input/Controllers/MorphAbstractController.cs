@@ -1,5 +1,4 @@
-﻿using Morph.Components;
-using Morph.Components.Interaction;
+﻿using Morph.Components.Interaction;
 using Morph.Core;
 using Morph.Input.Controllers.Features;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace Morph.Input.Controllers
         public abstract MorphFeatureTouchpads Touchpads { get; }
         public abstract MorphFeatureButtons Buttons { get; }
         public abstract MorphFeatureGestures Gestures { get; }
-        public MorphFeatureHaptics Haptics { get; private set; }
+        public abstract MorphFeatureHaptics Haptics { get; }
         public bool IsInitialized { get; private set; }
 
         public virtual bool Initialize()
@@ -123,7 +122,6 @@ namespace Morph.Input.Controllers
         {
             Position = new MorphFeaturePosition();
             Rotation = new MorphFeatureRotation();
-            Haptics = new MorphFeatureHaptics();
         }
 
         protected void Update()
