@@ -6,36 +6,36 @@ namespace Morph.Input.Controllers.Features
     /// <summary>
     /// Rotation feature
     /// </summary>
-    public class MorphFeatureRotation : IMorphControllerFeature
+    public abstract class MorphFeatureRotation : IMorphControllerFeature
     {
         /// <summary>
         /// Rotation in world space
         /// </summary>
-        public Quaternion Rotation { get; set; }
+        public Quaternion Rotation { get; protected set; }
 
         /// <summary>
         /// The direction the controller is looking at
         /// </summary>
-        public Vector3 ForwardDirection { get; set; }
+        public Vector3 ForwardDirection { get; protected set; }
 
         /// <summary>
         /// The up direction of the controller
         /// </summary>
-        public Vector3 UpDirection { get; set; }
+        public Vector3 UpDirection { get; protected set; }
 
         /// <summary>
         /// The right direction of the controller
         /// </summary>
-        public Vector3 RightDirection { get; set; }
+        public Vector3 RightDirection { get; protected set; }
 
         /// <summary>
         /// Rotation speed on each axis
         /// </summary>
-        public Vector3 AngularSpeed { get; set; }
+        public Vector3 AngularSpeed { get; protected set; }
 
         /// <summary>
         /// Rotation delta between current rotation and previous one
         /// </summary>
-        public Vector3 RotationDelta { get; set; }
+        public Vector3 RotationDelta { get; protected set; }
     }
 }

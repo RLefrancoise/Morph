@@ -1,6 +1,8 @@
 ﻿using Morph.Components.Interaction;
 using Morph.Core;
 using Morph.Input.Controllers.Features;
+using Morph.Input.Controllers.Features.Position;
+using Morph.Input.Controllers.Features.Rotation;
 using UnityEngine;
 
 namespace Morph.Input.Controllers
@@ -13,16 +15,16 @@ namespace Morph.Input.Controllers
     {
         #region Fields
 
-        protected Vector3? _previousPosition;
-        protected Vector3? _previousRotation;
+        protected MorphDefaultFeaturePosition _position;
+        protected MorphDefaultFeatureRotation _rotation;
 
         #endregion
 
         #region IMorphController Implementation
 
         public abstract MorphControllerFeatures SupportedFeatures { get; }
-        public MorphFeaturePosition Position { get; private set; }
-        public MorphFeatureRotation Rotation { get; private set; }
+        public MorphFeaturePosition Position => _position;
+        public MorphFeatureRotation Rotation => _rotation;
         public abstract MorphFeatureTouchpads Touchpads { get; }
         public abstract MorphFeatureButtons Buttons { get; }
         public abstract MorphFeatureGestures Gestures { get; }
@@ -79,34 +81,12 @@ namespace Morph.Input.Controllers
 
         protected virtual void UpdatePosition()
         {
-            Position.Position = transform.position;
-
-            if (_previousPosition.HasValue)
-            {
-                Vector3 delta = Position.Position - _previousPosition.Value;
-                Position.MovementDirection = delta.normalized;
-                Position.PositionDelta = delta;
-                Position.Speed = delta / Time.deltaTime;
-            }
-
-            _previousPosition = Position.Position;
+            _position.Update(transform);
         }
 
         protected virtual void UpdateRotation()
         {
-            Rotation.Rotation = transform.rotation;
-            Rotation.ForwardDirection = transform.forward;
-            Rotation.UpDirection = transform.up;
-            Rotation.RightDirection = transform.right;
-
-            if (_previousRotation.HasValue)
-            {
-                Vector3 delta = Rotation.Rotation.eulerAngles - _previousRotation.Value;
-                Rotation.RotationDelta = delta;
-                Rotation.AngularSpeed = delta / Time.deltaTime;
-            }
-
-            _previousRotation = Rotation.Rotation.eulerAngles;
+            _rotation.Update(transform);
         }
 
         protected virtual void UpdateTouchPad() { }
@@ -120,8 +100,8 @@ namespace Morph.Input.Controllers
 
         protected virtual void Awake()
         {
-            Position = new MorphFeaturePosition();
-            Rotation = new MorphFeatureRotation();
+            _position = new MorphDefaultFeaturePosition();
+            _rotation = new MorphDefaultFeatureRotation();
         }
 
         protected void Update()
