@@ -113,10 +113,10 @@ namespace Morph.Input.Controllers.GoogleVR
 
             //if no component grabbed, nothing to update
             if (!CurrentlyGrabbedComponent) return;
-
+            
             //Move grabbed component around user
-            CurrentlyGrabbedComponent.transform.RotateAround(Reticle.PointerCamera.transform.position, Reticle.PointerCamera.transform.up, Rotation.RotationDelta.y);
-            CurrentlyGrabbedComponent.transform.RotateAround(Reticle.PointerCamera.transform.position, Reticle.PointerCamera.transform.right, Rotation.RotationDelta.x);
+            CurrentlyGrabbedComponent.transform.RotateAround(Reticle.PointerCamera.transform.position, Reticle.PointerCamera.transform.up, Rotation.RotationDelta.eulerAngles.y);
+            CurrentlyGrabbedComponent.transform.RotateAround(Reticle.PointerCamera.transform.position, Reticle.PointerCamera.transform.right, Rotation.RotationDelta.eulerAngles.x);
         }
     }
 }
