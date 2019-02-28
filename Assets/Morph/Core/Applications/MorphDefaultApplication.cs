@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Morph.Components;
 using Morph.Components.Interaction;
+using Morph.Components.Navigation;
 using Morph.Input.Controllers;
 using UnityEngine;
 
@@ -111,10 +112,14 @@ namespace Morph.Core.Applications
 
         public void Visit(IMorphComponent component)
         {
+            foreach(var controller in Controllers)
+                component.Accept(controller);
         }
 
         public void Visit(IMorphInteractiveComponent interactiveComponent)
         {
+            foreach(var controller in Controllers)
+                interactiveComponent.Accept(controller);
         }
 
         public void Visit(IMorphComponentInteraction interaction)
@@ -123,6 +128,12 @@ namespace Morph.Core.Applications
             {
                 interaction.Accept(controller);
             }
+        }
+
+        public void Visit(IMorphWarpZone warpZone)
+        {
+            foreach(var controller in Controllers)
+                warpZone.Accept(controller);
         }
 
         #endregion

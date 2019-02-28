@@ -1,4 +1,6 @@
-﻿using Morph.Components.Interaction;
+﻿using Morph.Components;
+using Morph.Components.Interaction;
+using Morph.Components.Navigation;
 using Morph.Core;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Position;
@@ -128,6 +130,18 @@ namespace Morph.Input.Controllers
         public virtual void Visit(IMorphComponentSelect select) { }
         public virtual void Visit(IMorphComponentGrab grab) { }
 
+        #endregion
+
+        #region IMorphComponentVisitor
+        
+        public virtual void Visit(IMorphComponent component) { }
+
+        public virtual void Visit(IMorphInteractiveComponent interactiveComponent) { }
+
+        public virtual void Visit(IMorphComponentInteraction interaction) { }
+
+        public virtual void Visit(IMorphWarpZone warpZone) { }
+        
         #endregion
     }
 }

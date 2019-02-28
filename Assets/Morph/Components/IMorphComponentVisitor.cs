@@ -1,4 +1,5 @@
 ﻿using Morph.Components.Interaction;
+using Morph.Components.Navigation;
 
 namespace Morph.Components
 {
@@ -20,5 +21,11 @@ namespace Morph.Components
         /// </summary>
         /// <param name="interaction"></param>
         void Visit(IMorphComponentInteraction interaction);
+
+        /// <summary>
+        /// Visit a warp zone
+        /// </summary>
+        /// <param name="warpZone"></param>
+        void Visit(IMorphWarpZone warpZone);
     }
 }
