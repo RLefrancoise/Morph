@@ -38,12 +38,7 @@ sysinfo.txt
 /.pumlexclude
 *.code-workspace
 .vscode/
-/.idea/.idea.Morph/.idea/contentModel.xml
-/.idea/.idea.Morph/.idea/indexLayout.xml
-/.idea/.idea.Morph/.idea/modules.xml
-/.idea/.idea.Morph/.idea/vcs.xml
-/.idea/.idea.Morph/.idea/workspace.xml
-/.idea/.idea.Morph/riderModule.iml
-/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll
-/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta
-/Assets/Plugins/Editor/JetBrains.meta
+
+.idea/
+Assets/Plugins/Editor/JetBrains
+Assets/Plugins/Editor/JetBrains.meta
