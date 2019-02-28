@@ -2,9 +2,13 @@
 
 namespace Morph.Input.Controllers.Features.Rotation
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Morph default rotation feature
+    /// </summary>
     public class MorphDefaultFeatureRotation : MorphFeatureRotation
     {
-        protected Vector3? _previousRotation;
+        private Quaternion? _previousRotation;
 
         public void Update(Transform transform)
         {
@@ -15,12 +19,20 @@ namespace Morph.Input.Controllers.Features.Rotation
 
             if (_previousRotation.HasValue)
             {
-                Vector3 delta = Rotation.eulerAngles - _previousRotation.Value;
+                var delta = Rotation * Quaternion.Inverse(_previousRotation.Value);
                 RotationDelta = delta;
-                AngularSpeed = delta / Time.deltaTime;
+
+                float angle;
+                Vector3 axis;
+                
+                delta.ToAngleAxis(out angle, out axis);
+
+                angle *= Mathf.Deg2Rad;
+
+                AngularSpeed = axis * angle * (1.0f / Time.deltaTime);
             }
 
-            _previousRotation = Rotation.eulerAngles;
+            _previousRotation = Rotation;
         }
     }
 }

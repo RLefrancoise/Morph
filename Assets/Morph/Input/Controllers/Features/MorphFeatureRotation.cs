@@ -36,6 +36,6 @@ namespace Morph.Input.Controllers.Features
         /// <summary>
         /// Rotation delta between current rotation and previous one
         /// </summary>
-        public Vector3 RotationDelta { get; protected set; }
+        public Quaternion RotationDelta { get; protected set; }
     }
 }
