@@ -6,26 +6,26 @@ namespace Morph.Input.Controllers.Features
     /// <summary>
     /// Position feature
     /// </summary>
-    public class MorphFeaturePosition : IMorphControllerFeature
+    public abstract class MorphFeaturePosition : IMorphControllerFeature
     {
         /// <summary>
         /// Position in world space
         /// </summary>
-        public Vector3 Position { get; set; }
+        public Vector3 Position { get; protected set; }
 
         /// <summary>
         /// Position delta in world space
         /// </summary>
-        public Vector3 PositionDelta { get; set; }
+        public Vector3 PositionDelta { get; protected set; }
 
         /// <summary>
         /// Current speed on each axis
         /// </summary>
-        public Vector3 Speed { get; set; }
+        public Vector3 Speed { get; protected set; }
 
         /// <summary>
         /// Movement direction
         /// </summary>
-        public Vector3 MovementDirection { get; set; }
+        public Vector3 MovementDirection { get; protected set; }
     }
 }
