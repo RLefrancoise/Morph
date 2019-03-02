@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Morph.Components;
+using Morph.Components.Navigation;
 using Morph.Input.Controllers;
 
 namespace Morph.Core
@@ -11,6 +12,11 @@ namespace Morph.Core
     /// </summary>
     public interface IMorphApplication : IMorphComponentVisitor
     {
+        /// <summary>
+        /// Player controller
+        /// </summary>
+        IMorphPlayerController PlayerController { get; }
+        
         /// <summary>
         /// Main camera of the application
         /// </summary>

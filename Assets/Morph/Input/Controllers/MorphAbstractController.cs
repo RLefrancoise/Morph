@@ -141,7 +141,10 @@ namespace Morph.Input.Controllers
         public virtual void Visit(IMorphComponentInteraction interaction) { }
 
         public virtual void Visit(IMorphWarpZone warpZone) { }
-        
+
+        /// <inheritdoc />
+        public virtual void Visit(IMorphPlayerController playerController) { }
+
         #endregion
     }
 }

@@ -15,12 +15,18 @@ namespace Morph.Core.Applications
     public class MorphDefaultApplication : MonoBehaviour, IMorphApplication
     {
         [SerializeField]
+        private GameObject player;
+        
+        [SerializeField]
         private GameObject _mainCamera;
 
         [SerializeField]
         private List<GameObject> _controllers;
 
         #region Properties
+
+        /// <inheritdoc />
+        public IMorphPlayerController PlayerController { get; private set; }
         public IMorphDisplay MainDisplay { get; private set; }
         public List<IMorphController> Controllers { get; private set; }
         public List<IMorphComponent> Components { get; private set; }
@@ -29,6 +35,11 @@ namespace Morph.Core.Applications
 
         public bool Initialize()
         {
+            //Player controller
+            if (!player) return false;
+
+            PlayerController = player.GetComponent<IMorphPlayerController>();
+            
             //Main camera
             if (!_mainCamera) return false;
 
@@ -134,6 +145,13 @@ namespace Morph.Core.Applications
         {
             foreach(var controller in Controllers)
                 warpZone.Accept(controller);
+        }
+
+        /// <inheritdoc />
+        public void Visit(IMorphPlayerController playerController)
+        {
+            foreach(var controller in Controllers)
+                playerController.Accept(controller);
         }
 
         #endregion

@@ -27,5 +27,11 @@ namespace Morph.Components
         /// </summary>
         /// <param name="warpZone"></param>
         void Visit(IMorphWarpZone warpZone);
+
+        /// <summary>
+        /// Visit a player controller
+        /// </summary>
+        /// <param name="playerController"></param>
+        void Visit(IMorphPlayerController playerController);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Morph.Components.Navigation
@@ -14,5 +15,8 @@ namespace Morph.Components.Navigation
         {
             visitor.Visit(this);
         }
+
+        /// <inheritdoc />
+        public event EventHandler<MorphWarpedToZoneEventArgs> OnWarpedToZone;
     }
 }
