@@ -47,6 +47,11 @@ namespace Morph.Input.Controllers
         /// Haptics
         /// </summary>
         MorphFeatureHaptics Haptics { get; }
+        
+        /// <summary>
+        /// Warp
+        /// </summary>
+        MorphFeatureWarp Warp { get; }
 
         #endregion
 

@@ -30,7 +30,8 @@ namespace Morph.Input.Controllers.Oculus
         public override MorphFeatureTouchpads Touchpads => _touchpads;
         public override MorphFeatureGestures Gestures => _gestures;
         public override MorphFeatureHaptics Haptics => null;
-
+        public override MorphFeatureWarp Warp => null;
+        
         [SerializeField]
         private GameObject _reticlePrefab;
 

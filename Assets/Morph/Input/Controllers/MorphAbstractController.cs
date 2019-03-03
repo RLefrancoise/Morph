@@ -31,6 +31,7 @@ namespace Morph.Input.Controllers
         public abstract MorphFeatureButtons Buttons { get; }
         public abstract MorphFeatureGestures Gestures { get; }
         public abstract MorphFeatureHaptics Haptics { get; }
+        public abstract MorphFeatureWarp Warp { get; }
         public bool IsInitialized { get; private set; }
 
         public virtual bool Initialize()

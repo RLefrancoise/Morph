@@ -2,6 +2,8 @@
 using Morph.Components.Interaction.Focus;
 using Morph.Components.Interaction.Grab;
 using Morph.Components.Interaction.Select;
+using Morph.Components.Navigation;
+using Morph.Components.Utils;
 using Morph.Core;
 using Morph.Input.Controllers.Common;
 using Morph.Input.Controllers.Features;
@@ -22,13 +24,14 @@ namespace Morph.Input.Controllers
         private MorphControllerButton _middleButton;
         private MorphFeatureButtons _buttons;
 
-        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons;
+        public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons | MorphControllerFeatures.Warp;
 
         public override MorphFeatureTouchpads Touchpads => null;
         public override MorphFeatureButtons Buttons => _buttons;
         public override MorphFeatureGestures Gestures => null; //TODO: to be implemented
         public override MorphFeatureHaptics Haptics => null;
-
+        public override MorphFeatureWarp Warp => null;
+        
         public override bool Initialize()
         {
             _leftButton = new MorphControllerButton("Left button");
@@ -62,6 +65,17 @@ namespace Morph.Input.Controllers
             _leftButton.Pressed = UnityEngine.Input.GetMouseButton(0);
             _rightButton.Pressed = UnityEngine.Input.GetMouseButton(1);
             _middleButton.Pressed = UnityEngine.Input.GetMouseButton(2);
+        }
+
+        public override void Visit(IMorphPlayerController playerController)
+        {
+            base.Visit(playerController);
+            
+            var player = (playerController as Component);
+            if (player == null) return;
+            
+            var control = player.gameObject.AddComponent<MorphControlTransformWithMouse>();
+            control.TransformToControl = player.transform;
         }
 
         protected override Ray GrabbedRay => MorphMain.Instance.Application.MainDisplay.Camera.ScreenPointToRay(UnityEngine.Input.mousePosition);

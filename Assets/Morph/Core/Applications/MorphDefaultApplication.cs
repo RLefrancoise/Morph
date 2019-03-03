@@ -35,16 +35,6 @@ namespace Morph.Core.Applications
 
         public bool Initialize()
         {
-            //Player controller
-            if (!player) return false;
-
-            PlayerController = player.GetComponent<IMorphPlayerController>();
-            
-            //Main camera
-            if (!_mainCamera) return false;
-
-            MainDisplay = _mainCamera.GetComponent<IMorphDisplay>();
-
             //Components
             Components = new List<IMorphComponent>();
 
@@ -65,10 +55,19 @@ namespace Morph.Core.Applications
                 if (!AddController(morphController))
                 {
                     Debug.LogErrorFormat("Failed to add controller {0}", controller.name);
-                    continue;
                 }
             }
 
+            //Player controller
+            if (!player) return false;
+
+            PlayerController = player.GetComponent<IMorphPlayerController>();
+            
+            //Main camera
+            if (!_mainCamera) return false;
+
+            MainDisplay = _mainCamera.GetComponent<IMorphDisplay>();
+            
             return true;
         }
 

@@ -43,6 +43,10 @@ namespace Morph.Input.Controllers
         /// <summary>
         /// 6DOF
         /// </summary>
-        SixDegreesOfFreedom = 1 << 7
+        SixDegreesOfFreedom = 1 << 7,
+        /// <summary>
+        /// Warp
+        /// </summary>
+        Warp = 1 << 8
     }
 }
