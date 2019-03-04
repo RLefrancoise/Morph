@@ -97,6 +97,8 @@ namespace Morph.Input.Controllers
         protected virtual void UpdateGestures() { }
         protected virtual void UpdateHaptics() { }
 
+        protected virtual void UpdateWarp() { }
+        
         #endregion
 
         #region MonoBehaviour
@@ -119,6 +121,7 @@ namespace Morph.Input.Controllers
             if(HasFeatures(MorphControllerFeatures.Buttons)) UpdateButtons();
             if(HasFeatures(MorphControllerFeatures.Gestures)) UpdateGestures();
             if(HasFeatures(MorphControllerFeatures.Haptics)) UpdateHaptics();
+            if(HasFeatures(MorphControllerFeatures.Warp)) UpdateWarp();
 
             AfterUpdate();
         }
