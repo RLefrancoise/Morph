@@ -262,6 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691293053}
   - component: {fileID: 691293052}
+  - component: {fileID: 691293054}
   m_Layer: 0
   m_Name: MouseController
   m_TagString: Untagged
@@ -293,6 +294,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &691293054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 691293051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1f1fa483e0462786723202c03dea57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guidance: 0
+  warpMark: {fileID: 1532260026023968, guid: fe74f95fb4ccfbc498a86b23caa340e8, type: 2}
+  availableZoneColor: {r: 0, g: 1, b: 0, a: 1}
+  notAvailableZoneColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1324939185
 GameObject:
   m_ObjectHideFlags: 0

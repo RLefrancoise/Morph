@@ -7,6 +7,7 @@ using Morph.Core;
 using Morph.Input.Controllers.Common;
 using Morph.Input.Controllers.Features;
 using Morph.Input.Controllers.Features.Buttons;
+using Morph.Input.Controllers.Features.Warp;
 using Morph.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -23,6 +24,8 @@ namespace Morph.Input.Controllers
         private MorphControllerButton _rightButton;
         private MorphControllerButton _middleButton;
         private MorphFeatureButtons _buttons;
+        private MorphFeatureWarp _warp;
+        private MorphMouseWarpSystem _warpSystem;
 
         public override MorphControllerFeatures SupportedFeatures => MorphControllerFeatures.Position | MorphControllerFeatures.Buttons | MorphControllerFeatures.Warp;
 
@@ -30,10 +33,11 @@ namespace Morph.Input.Controllers
         public override MorphFeatureButtons Buttons => _buttons;
         public override MorphFeatureGestures Gestures => null; //TODO: to be implemented
         public override MorphFeatureHaptics Haptics => null;
-        public override MorphFeatureWarp Warp => null;
+        public override MorphFeatureWarp Warp => _warp;
         
         public override bool Initialize()
         {
+            //Buttons
             _leftButton = new MorphControllerButton("Left button");
             _rightButton = new MorphControllerButton("Right button");
             _middleButton = new MorphControllerButton("Middle button");
@@ -45,6 +49,10 @@ namespace Morph.Input.Controllers
                 _middleButton
             });
 
+            //Warp
+            _warpSystem = GetComponent<MorphMouseWarpSystem>();
+            _warp = new MorphFeatureWarp(_warpSystem);
+            
             return base.Initialize();
         }
 
@@ -52,10 +60,11 @@ namespace Morph.Input.Controllers
         {
             if (MorphMain.Instance.Application.MainDisplay == null) return;
 
-            transform.position =
-                MorphMain.Instance.Application.MainDisplay.Camera.ScreenToWorldPoint(
-                    new Vector3(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y, MorphMain.Instance.Application.MainDisplay.Camera.nearClipPlane));
-            transform.rotation = Quaternion.identity;
+            var t = transform;
+            t.position =
+                MorphMain.Instance.Application.PlayerController.PlayerCamera.ScreenToWorldPoint(
+                    new Vector3(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y, MorphMain.Instance.Application.PlayerController.PlayerCamera.nearClipPlane));
+            t.rotation = Quaternion.identity;
         }
 
         protected override void UpdateButtons()

@@ -28,7 +28,7 @@ namespace Morph.Utils
         
         private void Update()
         {
-            if (!UnityEngine.Input.GetMouseButton(1)) return;
+            if (!UnityEngine.Input.GetMouseButton(2)) return;
             
             _mouseX += UnityEngine.Input.GetAxis("Mouse X") * 5;
             if (_mouseX <= -180)
