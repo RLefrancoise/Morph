@@ -1,5 +1,6 @@
 ﻿using Morph.Components.Interaction;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Morph.Components
 {
@@ -11,14 +12,14 @@ namespace Morph.Components
     public class MorphInteractiveComponent : MorphComponent, IMorphInteractiveComponent
     {
         [SerializeField]
-        private bool _interactable = true;
+        private bool interactable = true;
 
         public bool Interactable
         {
-            get { return _interactable; }
+            get { return interactable; }
             set
             {
-                _interactable = value;
+                interactable = value;
                 Collider.enabled = value;
 
                 var interactions = GetComponents<IMorphComponentInteraction>();
@@ -35,15 +36,8 @@ namespace Morph.Components
         {
             base.Start();
             Collider = GetComponent<Collider>();
-            Interactable = _interactable;
+            Interactable = interactable;
         }
-
-#if UNITY_EDITOR
-        protected virtual void Update()
-        {
-            Interactable = _interactable;
-        }
-#endif
 
         public override void Accept(IMorphComponentVisitor visitor)
         {
