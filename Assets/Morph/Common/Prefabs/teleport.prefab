@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4667279274930400}
   - component: {fileID: 33668667488680604}
   - component: {fileID: 23604061716753250}
-  - component: {fileID: 114190079032530296}
   m_Layer: 0
   m_Name: teleport
   m_TagString: Untagged
@@ -39,6 +38,7 @@ GameObject:
   - component: {fileID: 4192979045267924}
   - component: {fileID: 33770315331601146}
   - component: {fileID: 23026014896811144}
+  - component: {fileID: 114443653761369104}
   m_Layer: 0
   m_Name: Ring
   m_TagString: Untagged
@@ -62,7 +62,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4192979045267924
 Transform:
   m_ObjectHideFlags: 1
@@ -227,15 +227,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1810010039851478}
   m_Mesh: {fileID: 4300002, guid: 741a3d22d98d3494786bc46175c37a3a, type: 3}
---- !u!114 &114190079032530296
+--- !u!114 &114443653761369104
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1532260026023968}
+  m_GameObject: {fileID: 1810010039851478}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5232aaff3cf54399b0308dd8718f7a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: {x: 0, y: 30, z: 0}
+  rotationSpeed: {x: 0, y: 0, z: 90}

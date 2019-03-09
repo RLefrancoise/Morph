@@ -11,8 +11,11 @@ namespace Morph.Input.Controllers.Features.Warp
     /// Morph warp system for mouse
     /// </summary>
     [RequireComponent(typeof(LineRenderer))]
+    [RequireComponent(typeof(MorphMouseController))]
     public class MorphMouseWarpSystem : MorphComponent, IMorphWarpSystem
     {
+        private MorphMouseController _mouseController;
+        
         private GameObject _warpMarkInstance;
         private Renderer[] _warpMarkInstanceRenderers;
         private RaycastHit _raycastHit;
@@ -33,8 +36,12 @@ namespace Morph.Input.Controllers.Features.Warp
         public Color availableZoneColor = Color.green;
         [SerializeField]
         public Color notAvailableZoneColor = Color.red;
-
-        private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+        [SerializeField]
+        public float maxWarpDistance = 2f;
+        [SerializeField]
+        public int curveSegmentsNumber = 32;
+        
+        private static readonly int EmissionColor = Shader.PropertyToID("_Color");
 
         /// <inheritdoc />
         public MorphWarpSystemGuidance Guidance
@@ -58,9 +65,38 @@ namespace Morph.Input.Controllers.Features.Warp
                             new GradientColorKey(Color.black, 1f)
                         };
                         break;
-                    case MorphWarpSystemGuidance.Bezier:
+                    case MorphWarpSystemGuidance.Curve:
+                        _linePositions = new Vector3[CurveGuidanceSegments];
+                        _lineGradientAlphaKeys = new[]
+                        {
+                            new GradientAlphaKey(0f, 0f),
+                            new GradientAlphaKey(1f, 0.5f),
+                        };
+                        _lineGradientColorKeys = new[]
+                        {
+                            new GradientColorKey(Color.black, 0f),
+                            new GradientColorKey(Color.black, 1f)
+                        };
                         break;
                 }
+            }
+        }
+
+        /// <inheritdoc />
+        public float MaxWarpDistance
+        {
+            get { return maxWarpDistance; }
+            set { maxWarpDistance = value; }
+        }
+
+        /// <inheritdoc />
+        public int CurveGuidanceSegments 
+        {
+            get { return curveSegmentsNumber; }
+            set
+            {
+                curveSegmentsNumber = value;
+                _linePositions = new Vector3[curveSegmentsNumber];
             }
         }
 
@@ -70,8 +106,7 @@ namespace Morph.Input.Controllers.Features.Warp
             switch (warpSystemGuidance)
             {
                 case MorphWarpSystemGuidance.Straight:
-                    return true;
-                case MorphWarpSystemGuidance.Bezier:
+                case MorphWarpSystemGuidance.Curve:
                     return true;
                 default:
                     return false;
@@ -82,6 +117,8 @@ namespace Morph.Input.Controllers.Features.Warp
         {
             base.Start();
 
+            _mouseController = GetComponent<MorphMouseController>();
+            
             _warpMarkInstance = Instantiate(warpMark, transform);
             _warpMarkInstanceRenderers = _warpMarkInstance.GetComponentsInChildren<Renderer>();
 
@@ -98,6 +135,9 @@ namespace Morph.Input.Controllers.Features.Warp
             {
                 _warpMarkInstance.gameObject.SetActive(false);
                 _lineRenderer.enabled = false;
+                _isHittingSomething = false;
+                _zoneBeingHit = null;
+                _hitCollider = null;
                 return;
             }
             
@@ -106,8 +146,8 @@ namespace Morph.Input.Controllers.Features.Warp
                 case MorphWarpSystemGuidance.Straight:
                     UpdateStraight();
                     break;
-                case MorphWarpSystemGuidance.Bezier:
-                    UpdateBezier();
+                case MorphWarpSystemGuidance.Curve:
+                    UpdateCurve();
                     break;
             }
 
@@ -115,14 +155,35 @@ namespace Morph.Input.Controllers.Features.Warp
             _warpMarkInstance.gameObject.SetActive(_isHittingSomething);
             
             //Show line only if hitting something
-            _lineRenderer.enabled = _isHittingSomething;
+            _lineRenderer.enabled = true;
+            
+            //Line positions
+            _lineRenderer.positionCount = _linePositions.Length;
+            _lineRenderer.SetPositions(_linePositions);
             
             if (_isHittingSomething)
             {
-                _warpMarkInstance.transform.position = _raycastHit.point + _raycastHit.normal * 0.001f;
+                //if hit collider is different than previous one
+                if (_raycastHit.collider != _hitCollider)
+                {
+                    _hitCollider = _raycastHit.collider;
+                    _zoneBeingHit = _raycastHit.transform.GetComponent<IMorphWarpZone>();
+                }
+                
+                _warpMarkInstance.transform.position = _raycastHit.point + _raycastHit.normal * 0.002f;
                 _warpMarkInstance.transform.rotation = Quaternion.LookRotation(_raycastHit.normal);
 
                 var color = _zoneBeingHit != null ? availableZoneColor : notAvailableZoneColor;
+                
+                //check distance to see if destination is too far
+                var playerPosition = MorphMain.Instance.Application.PlayerController.PlayerTransform.position;
+                var hitDistance = Vector3.Distance(
+                    playerPosition,
+                    new Vector3(_raycastHit.point.x, playerPosition.y, _raycastHit.point.z));
+                var zoneTooFar = hitDistance > MaxWarpDistance;
+                
+                if (MaxWarpDistance > 0f && zoneTooFar)
+                    color = notAvailableZoneColor;
                 
                 //Is hitting a warp zone, let's apply a color to notify that user can warp there or not
                 foreach (var r in _warpMarkInstanceRenderers)
@@ -140,16 +201,28 @@ namespace Morph.Input.Controllers.Features.Warp
                 gradient.SetKeys(_lineGradientColorKeys, _lineGradientAlphaKeys);
                 _lineRenderer.colorGradient = gradient;
                 
-                //Line positions
-                _lineRenderer.SetPositions(_linePositions);
-                
                 //If left click, warp player
-                if (UnityEngine.Input.GetMouseButtonDown(0) && _zoneBeingHit != null)
+                if (UnityEngine.Input.GetMouseButtonDown(0) && _zoneBeingHit != null && !zoneTooFar)
                 {
                     var warpPosition = MorphMain.Instance.Application.PlayerController.PlayerTransform.position;
                     warpPosition = new Vector3(_raycastHit.point.x, warpPosition.y, _raycastHit.point.z);
                     MorphMain.Instance.Application.PlayerController.PlayerTransform.position = warpPosition;
                 }
+            }
+            else
+            {
+                _hitCollider = null;
+                _zoneBeingHit = null;
+                
+                //Line renderer color
+                for (var i = 0; i < _lineGradientColorKeys.Length; ++i)
+                {
+                    _lineGradientColorKeys[i].color = notAvailableZoneColor;
+                }
+                
+                var gradient = new Gradient();
+                gradient.SetKeys(_lineGradientColorKeys, _lineGradientAlphaKeys);
+                _lineRenderer.colorGradient = gradient;
             }
         }
 
@@ -168,27 +241,48 @@ namespace Morph.Input.Controllers.Features.Warp
             //If it is hitting something
             if(_isHittingSomething)
             {
-                //if hit collider is different than previous one
-                if (_raycastHit.collider != _hitCollider)
-                {
-                    _hitCollider = _raycastHit.collider;
-                    _zoneBeingHit = _raycastHit.transform.GetComponent<IMorphWarpZone>();
-                }
-                
-                _linePositions[0] =
-                    MorphMain.Instance.Application.PlayerController.PlayerCamera.ScreenToWorldPoint(mouseRay.origin);
+                _linePositions[0] = MorphMain.Instance.Application.PlayerController.PlayerCamera.transform.position;
                 _linePositions[1] = _raycastHit.point;
-            }
-            else
-            {
-                _hitCollider = null;
-                _zoneBeingHit = null;
             }
         }
 
-        private void UpdateBezier()
+        private void UpdateCurve()
         {
+            _isHittingSomething = false;
             
+            var playerCamera = MorphMain.Instance.Application.PlayerController.PlayerCamera;
+            var mouseScreenPoint = new Vector3(
+                UnityEngine.Input.mousePosition.x,
+                UnityEngine.Input.mousePosition.y,
+                playerCamera.nearClipPlane);
+            
+            var mouseRay = playerCamera.ScreenPointToRay(mouseScreenPoint);
+            var speed = MaxWarpDistance / 2f;
+            var velocity = mouseRay.direction * speed;
+            var gravity = Vector3.down;
+
+            for (var i = 0; i < CurveGuidanceSegments; ++i)
+            {
+                var time = (float) i / CurveGuidanceSegments * MaxWarpDistance;
+                var arcPos = _mouseController.Position.Position + ((velocity * time) + (0.5f * time * time) * gravity);
+                _linePositions[i] = arcPos;
+
+                if (i > 0)
+                {
+                    _isHittingSomething = Physics.Linecast(_linePositions[i - 1], _linePositions[i], out _raycastHit);
+                }
+
+                //If hitting something, stop curve at colliding point
+                if (_isHittingSomething)
+                {
+                    _linePositions[i] = _raycastHit.point;
+                    
+                    for (var j = i + 1; j < CurveGuidanceSegments; ++j)
+                        _linePositions[j] = _linePositions[i];
+                    
+                    break;
+                }
+            }
         }
 
         /// <inheritdoc />

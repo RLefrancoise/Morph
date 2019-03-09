@@ -10,8 +10,8 @@ namespace Morph.Input.Controllers.Features.Warp
         /// </summary>
         Straight,
         /// <summary>
-        /// Bezier curve
+        /// Curve
         /// </summary>
-        Bezier
+        Curve
     }
 }

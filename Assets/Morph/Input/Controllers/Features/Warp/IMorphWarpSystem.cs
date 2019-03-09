@@ -11,6 +11,16 @@ namespace Morph.Input.Controllers.Features.Warp
         MorphWarpSystemGuidance Guidance { get; set; }
 
         /// <summary>
+        /// Max warp distance
+        /// </summary>
+        float MaxWarpDistance { get; set; }
+        
+        /// <summary>
+        /// Segments number for curve guidance
+        /// </summary>
+        int CurveGuidanceSegments { get; set; }
+        
+        /// <summary>
         /// Is guidance supported by the warp system
         /// </summary>
         /// <param name="warpSystemGuidance">Guidance to test the support</param>

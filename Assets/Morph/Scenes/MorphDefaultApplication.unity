@@ -306,10 +306,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1f1fa483e0462786723202c03dea57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guidance: 0
+  guidance: 1
   warpMark: {fileID: 1532260026023968, guid: fe74f95fb4ccfbc498a86b23caa340e8, type: 2}
   availableZoneColor: {r: 0, g: 1, b: 0, a: 1}
   notAvailableZoneColor: {r: 1, g: 0, b: 0, a: 1}
+  maxWarpDistance: 5
+  curveSegmentsNumber: 60
 --- !u!120 &691293055
 LineRenderer:
   m_ObjectHideFlags: 0
